@@ -11,7 +11,7 @@ namespace Challenges.Tests
             int[] input = new int[0];
 
             // Act
-            int[] result = ArrayReverse.ArrayReverse(input);
+            int[] result = ArrayChallenges.ArrayReverse(input);
 
             // Assert
             Assert.Empty(result);
@@ -29,7 +29,7 @@ namespace Challenges.Tests
             // from input
 
             // Act
-            int[] result = ArrayReverse.ArrayReverse(input);
+            int[] result = ArrayChallenges.ArrayReverse(input);
 
             // Assert
             Assert.Equal(expected, result);
