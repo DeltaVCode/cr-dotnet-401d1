@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
+using static Challenges.ArrayReverse;
 
 namespace Challenges
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -14,11 +14,6 @@ namespace Challenges
             int[] notEmpty = new int[] { 1, 2, 3 };
             int[] notEmptyReversed = ArrayReverse(notEmpty);
             Console.WriteLine("Not empty reversed: {0}", string.Join(",", notEmptyReversed));
-        }
-
-        static int[] ArrayReverse(int[] array)
-        {
-            return array.Reverse().ToArray();
         }
     }
 }
