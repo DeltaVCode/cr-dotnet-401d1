@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FileSystem\FileSystem.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Assets\emoji-utf8.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
