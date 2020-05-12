@@ -8,7 +8,7 @@ namespace Inheritance.Tests
         public void Can_open_presents()
         {
             // Arrange
-            BirthdayParty party = new BarBirthdayParty("Here");
+            BirthdayParty party = new BarBirthdayParty("Here", 25);
             party.ReceivePresent("Gift");
 
             // Act
@@ -22,7 +22,7 @@ namespace Inheritance.Tests
         public void Can_setup()
         {
             // Arrange
-            BirthdayParty party = new BarBirthdayParty("Here");
+            BirthdayParty party = new BarBirthdayParty("Here", 78);
 
             // Act
             party.Setup();

@@ -4,7 +4,8 @@ namespace Inheritance
 {
     public class BarBirthdayParty : BirthdayParty
     {
-        public BarBirthdayParty(string venue)
+        public BarBirthdayParty(string venue, int age)
+            : base(age)
         {
             Venue = venue;
         }
@@ -19,6 +20,11 @@ namespace Inheritance
         public override bool AgeIsAllowed(int age)
         {
             return age >= 18;
+        }
+
+        public override string HappyBirthday()
+        {
+            return base.HappyBirthday() + " Drinks are on me!";
         }
     }
 }

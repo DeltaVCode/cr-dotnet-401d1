@@ -2,8 +2,15 @@
 
 namespace Inheritance
 {
-    public abstract class BirthdayParty : Party
+    public abstract class BirthdayParty : Party, IWishYouAHappyBirthday
     {
+        protected BirthdayParty(int age)
+        {
+            AgeWeAreCelebrating = age;
+        }
+
+        public int AgeWeAreCelebrating { get; }
+
         public override int MaxNumGuests => 100;
 
         public override decimal Budget => 1000m;
@@ -16,6 +23,7 @@ namespace Inheritance
 
         // Concrete
         public int PresentCount { get; set; }
+
         public int OpenPresents()
         {
             return PresentCount;
@@ -25,6 +33,11 @@ namespace Inheritance
         {
             Console.WriteLine($"Thanks for {present}!");
             PresentCount++;
+        }
+
+        public virtual string HappyBirthday()
+        {
+            return "Happy Birthday!";
         }
     }
 }

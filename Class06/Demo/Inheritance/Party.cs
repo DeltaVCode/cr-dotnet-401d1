@@ -18,10 +18,5 @@
 
         // Methods
         public abstract void Setup();
-
-        public virtual void Teardown()
-        {
-            // No cleanup required
-        }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Inheritance
 {
-    public class HouseParty : BirthdayParty
+    public class HouseParty : BirthdayParty, IRequireTeardown
     {
-        public HouseParty()
+        public HouseParty(int age) : base(age)
         {
             Venue = "House";
         }
@@ -14,7 +14,7 @@ namespace Inheritance
             Console.WriteLine("Cleaning up the house");
         }
 
-        public override void Teardown()
+        public void Teardown()
         {
             Console.WriteLine("Cleaning up the house");
         }
