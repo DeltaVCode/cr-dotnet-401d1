@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
+using static System.DayOfWeek;
 
 namespace Demo
 {
@@ -77,5 +79,49 @@ namespace Demo
                 new[] { "Keith", "Craig", "Ian" },
                 myList);
         }
+
+        [Fact]
+        public void List_of_Dates()
+        {
+            MyGenericList<DateTime> nowish = new MyGenericList<DateTime>
+            {
+                DateTime.Now,
+            };
+
+            MyGenericList<DayOfWeek> days = new MyGenericList<DayOfWeek>
+            {
+                DayOfWeek.Tuesday,
+                default(DayOfWeek),
+                default,
+                Wednesday,
+            };
+
+            bool result = days.Remove(default);
+
+            Assert.True(result);
+            Assert.Equal(new[] { Tuesday, Sunday, Wednesday }, days);
+        }
+
+        [Fact]
+        public void Can_remove_from_list_with_null()
+        {
+            Book book1 = new Book { Title = "HP 1" };
+            Book book2 = new Book { Title = "HP 2" };
+            MyGenericList<Book> objects = new MyGenericList<Book>
+            {
+                book1,
+                null,
+                book2,
+            };
+
+            // Act
+            bool result = objects.Remove(book2);
+
+            // Assert
+            Assert.True(result);
+            Assert.Equal(new[] { book1, null }, objects);
+        }
+
+        class Book { public string Title { get; set; } }
     }
 }
