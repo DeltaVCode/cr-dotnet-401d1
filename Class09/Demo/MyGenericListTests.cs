@@ -128,26 +128,5 @@ namespace Demo
             Assert.Equal(new Book { Title = "HP 1" }, books[0]);
         }
 
-        class Book : IEquatable<Book>
-        {
-            public string Title { get; set; }
-
-            public bool Equals(Book other)
-            {
-                return other != null && other.Title == this.Title;
-            }
-
-            // Required stuff if you change equality
-            public override bool Equals(object obj)
-            {
-                // as = treat obj as a Book, otherwise null
-                return Equals(obj as Book);
-            }
-
-            public override int GetHashCode()
-            {
-                return Title == null ? 0 : Title.GetHashCode();
-            }
-        }
     }
 }
