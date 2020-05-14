@@ -107,7 +107,7 @@ namespace Demo
         {
             Book book1 = new Book { Title = "HP 1" };
             Book book2 = new Book { Title = "HP 2" };
-            MyGenericList<Book> objects = new MyGenericList<Book>
+            MyGenericList<Book> books = new MyGenericList<Book>
             {
                 book1,
                 null,
@@ -115,13 +115,39 @@ namespace Demo
             };
 
             // Act
-            bool result = objects.Remove(book2);
+            bool result = books.Remove(book2);
 
             // Assert
             Assert.True(result);
-            Assert.Equal(new[] { book1, null }, objects);
+            Assert.Equal(new[] { book1, null }, books);
+
+            // Without overriding equality
+            Assert.Equal(book1, books[0]);
+
+            // Uses IEquatable Equals(Book)
+            Assert.Equal(new Book { Title = "HP 1" }, books[0]);
         }
 
-        class Book { public string Title { get; set; } }
+        class Book : IEquatable<Book>
+        {
+            public string Title { get; set; }
+
+            public bool Equals(Book other)
+            {
+                return other != null && other.Title == this.Title;
+            }
+
+            // Required stuff if you change equality
+            public override bool Equals(object obj)
+            {
+                // as = treat obj as a Book, otherwise null
+                return Equals(obj as Book);
+            }
+
+            public override int GetHashCode()
+            {
+                return Title == null ? 0 : Title.GetHashCode();
+            }
+        }
     }
 }
