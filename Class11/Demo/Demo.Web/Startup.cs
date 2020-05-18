@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +18,12 @@ namespace Demo.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // var app = express();
+
+            // app.use(cors());
+            // app.UseCors();
+
+            // app.use(errorHandler)
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -32,7 +35,12 @@ namespace Demo.Web
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    // ?? = null coalescing operator
+                    // var message = req.query['message'] || 'Hello';
+
+                    string message = context.Request.Query["message"].FirstOrDefault() ?? "Hello";
+
+                    await context.Response.WriteAsync($"{message} World!");
                 });
             });
         }
