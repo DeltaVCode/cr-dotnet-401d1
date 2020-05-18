@@ -21,13 +21,9 @@ namespace Demo.Web.Controllers
             return RedirectToAction("Adder", new { value1, value2 });
         }
 
-        public IActionResult Adder(int value1, int value2)
+        // Model binding of all the applicable properties in the model type
+        public IActionResult Adder(AdderViewModel viewModel)
         {
-            AdderViewModel viewModel = new AdderViewModel
-            {
-                Value1 = value1,
-                Value2 = value2,
-            };
             return View(viewModel);
         }
 
