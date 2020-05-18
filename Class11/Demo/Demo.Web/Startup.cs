@@ -1,7 +1,5 @@
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,6 +11,7 @@ namespace Demo.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,19 +28,25 @@ namespace Demo.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            // Serve from wwwroot
+            // app.use(express.static('wwwroot'))
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    // ?? = null coalescing operator
-                    // var message = req.query['message'] || 'Hello';
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
 
-                    string message = context.Request.Query["message"].FirstOrDefault() ?? "Hello";
+                //endpoints.MapGet("/", async context =>
+                //{
+                //    // ?? = null coalescing operator
+                //    // var message = req.query['message'] || 'Hello';
 
-                    await context.Response.WriteAsync($"{message} World!");
-                });
+                //    string message = context.Request.Query["message"].FirstOrDefault() ?? "Hello";
+
+                //    await context.Response.WriteAsync($"{message} World!");
+                //});
             });
         }
     }
