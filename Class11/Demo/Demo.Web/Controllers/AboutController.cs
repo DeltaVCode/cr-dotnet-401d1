@@ -13,12 +13,7 @@ namespace Demo.Web.Controllers
             // var viewModel = { list: staff }
             // response.render('pages/about', viewModel)
 
-            List<Staff> staffList = new List<Staff>
-            {
-                new Staff { Name = "Keith", Role = Role.Instructor },
-                new Staff { Name = "Craig", Role = Role.Instructor },
-                new Staff { Name = "Aaron", Role = Role.Admin },
-            };
+            List<Staff> staffList = Models.Staff.GetStaff();
 
             AboutViewModel viewModel = new AboutViewModel
             {
@@ -26,6 +21,11 @@ namespace Demo.Web.Controllers
                 Staff = staffList,
             };
             return View(viewModel);
+        }
+
+        public IActionResult ListStaff()
+        {
+            return View(Models.Staff.GetStaff());
         }
     }
 }

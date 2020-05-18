@@ -1,0 +1,25 @@
+﻿@model System.Collections.Generic.List<Demo.Web.Models.Staff>
+@using Demo.Web.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/main.css" />
+</head>
+<body>
+    <h1>Staff List</h1>
+
+    <table>
+        @foreach (Staff staff in Model)
+        {
+            <tr>
+                <td>@staff.Name</td>
+                <td>@staff.Role</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
