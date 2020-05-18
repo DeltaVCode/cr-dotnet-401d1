@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Demo.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Web.Controllers
 {
@@ -7,6 +8,27 @@ namespace Demo.Web.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        // request.params.value1
+        [HttpPost]
+        public IActionResult Index(int value1, int value2)
+        {
+            // Don't show View() directly in a POST; redirect instead
+            // return View();
+
+            // Post - Redirect - Get
+            return RedirectToAction("Adder", new { value1, value2 });
+        }
+
+        public IActionResult Adder(int value1, int value2)
+        {
+            AdderViewModel viewModel = new AdderViewModel
+            {
+                Value1 = value1,
+                Value2 = value2,
+            };
+            return View(viewModel);
         }
 
         public IActionResult Welcome()
