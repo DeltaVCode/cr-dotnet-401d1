@@ -4,8 +4,10 @@ namespace Demo.Models
 {
     public class Enrollment
     {
-        public long Id { get; set; }
+        public long StudentId { get; set; }
+        public int CourseId { get; set; }
 
+        // Navigation Properties
         [Required]
         public Student Student { get; set; }
 

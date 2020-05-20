@@ -14,6 +14,13 @@ namespace Demo.Data
             // Does nothing, so we don't need to keep this
             // base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Enrollment>()
+                .HasKey(enrollment => new
+                {
+                    enrollment.CourseId,
+                    enrollment.StudentId,
+                });
+
             modelBuilder.Entity<Technology>()
                 .HasData(
                     new Technology { Id = 1, Name = ".NET" },
