@@ -14,6 +14,14 @@ namespace Demo.Data
             // Does nothing, so we don't need to keep this
             // base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Student>()
+                .HasData(new Student
+                {
+                    Id = 1,
+                    FirstName = "Keith",
+                    LastName = "Dahlby",
+                });
+
             modelBuilder.Entity<Enrollment>()
                 .HasKey(enrollment => new
                 {
