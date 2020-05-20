@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Demo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Data
 {
@@ -7,5 +8,7 @@ namespace Demo.Data
         public SchoolDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Technology> Technologies { get; set; }
     }
 }
