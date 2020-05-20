@@ -21,6 +21,7 @@ namespace Demo.Data
                 );
         }
 
+        public DbSet<Course> Courses { get; set; }
         public DbSet<Technology> Technologies { get; set; }
     }
 }
