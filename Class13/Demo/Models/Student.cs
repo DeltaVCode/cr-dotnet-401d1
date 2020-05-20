@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Models
@@ -14,5 +15,8 @@ namespace Demo.Models
         public string LastName { get; set; }
 
         public DateTime? BirthDate { get; set; }
+
+        // Navigation Property
+        public ICollection<Enrollment> Enrollments { get; set; }
     }
 }
