@@ -51,5 +51,6 @@ namespace Demo.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Technology> Technologies { get; set; }
+        public DbSet<Demo.Models.Student> Student { get; set; }
     }
 }
