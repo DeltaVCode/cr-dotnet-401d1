@@ -11,5 +11,6 @@ namespace Demo.Models
         // Reference to another table!
         [Required]
         public Technology Technology { get; set; }
+        public int TechnologyId { get; set; }
     }
 }

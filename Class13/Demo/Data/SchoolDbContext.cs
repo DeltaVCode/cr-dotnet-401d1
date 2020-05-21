@@ -29,6 +29,18 @@ namespace Demo.Data
                     enrollment.StudentId,
                 });
 
+            modelBuilder.Entity<Course>()
+                .HasData(new Course
+                {
+                    Id = 1,
+                    CourseCode = "cr-dotnet-401d1",
+                    Price = 1_000_000m,
+                    TechnologyId = 1,
+                });
+
+            modelBuilder.Entity<Enrollment>()
+                .HasData(new Enrollment { CourseId = 1, StudentId = 1 });
+
             modelBuilder.Entity<Technology>()
                 .HasData(
                     new Technology { Id = 1, Name = ".NET" },
