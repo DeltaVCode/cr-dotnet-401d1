@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200521143631_SeedAnEnrollment.cs" />
     <Compile Remove="Migrations\20200521143631_SeedAnEnrollment.Designer.cs" />
+    <Compile Remove="Migrations\20200521172943_AddTechnologyDesc.cs" />
+    <Compile Remove="Migrations\20200521172943_AddTechnologyDesc.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
