@@ -81,7 +81,7 @@ namespace Demo.Controllers
             _context.Technologies.Add(technology);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTechnology", new { id = technology.Id }, technology);
+            return CreatedAtAction(nameof(GetTechnology), new { id = technology.Id }, technology);
         }
 
         // DELETE: api/TechnologiesApi/5

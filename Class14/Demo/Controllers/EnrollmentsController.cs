@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Demo.Data;
 using Demo.Models;
+using Demo.Models.Api;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Controllers
 {
@@ -78,8 +77,22 @@ namespace Demo.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Enrollment>> PostEnrollment(Enrollment enrollment)
+        public async Task<ActionResult<Enrollment>> PostEnrollment(CreateEnrollment enrollmentData)
         {
+            var course = await _context.Courses.FindAsync(enrollmentData.CourseId);
+            var student = await _context.Student.FindAsync(enrollmentData.StudentId);
+
+            if (course == null || student == null)
+            {
+                return BadRequest();
+            }
+
+            var enrollment = new Enrollment
+            {
+                Student = student,
+                Course = course,
+            };
+
             _context.Enrollments.Add(enrollment);
             try
             {

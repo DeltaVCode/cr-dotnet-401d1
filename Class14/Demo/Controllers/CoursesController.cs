@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Demo.Data;
 using Demo.Models;
+using Demo.Models.Api;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Controllers
 {
@@ -78,8 +77,20 @@ namespace Demo.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(Course course)
+        public async Task<ActionResult<Course>> PostCourse(CreateCourse courseData)
         {
+            var technology = await _context.Technologies.FindAsync(courseData.TechnologyId);
+            if (technology == null)
+            {
+                return BadRequest();
+            }
+
+            var course = new Course
+            {
+                CourseCode = courseData.CourseCode,
+                Price = courseData.Price,
+                Technology = technology,
+            };
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 
