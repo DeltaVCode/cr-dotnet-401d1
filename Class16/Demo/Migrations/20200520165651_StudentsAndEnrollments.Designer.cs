@@ -4,14 +4,16 @@ using Demo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Demo.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200520165651_StudentsAndEnrollments")]
+    partial class StudentsAndEnrollments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,15 +42,6 @@ namespace Demo.Migrations
                     b.HasIndex("TechnologyId");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseCode = "cr-dotnet-401d1",
-                            Price = 1000000m,
-                            TechnologyId = 1
-                        });
                 });
 
             modelBuilder.Entity("Demo.Models.Enrollment", b =>
@@ -64,13 +57,6 @@ namespace Demo.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("Enrollments");
-
-                    b.HasData(
-                        new
-                        {
-                            CourseId = 1,
-                            StudentId = 1L
-                        });
                 });
 
             modelBuilder.Entity("Demo.Models.Student", b =>
@@ -80,7 +66,7 @@ namespace Demo.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("BirthDate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
@@ -94,14 +80,6 @@ namespace Demo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Student");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            FirstName = "Keith",
-                            LastName = "Dahlby"
-                        });
                 });
 
             modelBuilder.Entity("Demo.Models.Technology", b =>
@@ -110,9 +88,6 @@ namespace Demo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -153,7 +128,7 @@ namespace Demo.Migrations
                         .IsRequired();
 
                     b.HasOne("Demo.Models.Student", "Student")
-                        .WithMany("Enrollments")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
