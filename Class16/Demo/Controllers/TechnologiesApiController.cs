@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Demo.Data;
+using Demo.Data.Repositories;
 using Demo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace Demo.Controllers
     public class TechnologiesApiController : ControllerBase
     {
         private readonly SchoolDbContext _context;
+        private readonly ITechnologyRepository technologyRepository;
 
-        public TechnologiesApiController(SchoolDbContext context)
+        public TechnologiesApiController(SchoolDbContext context, ITechnologyRepository technologyRepository)
         {
             _context = context;
+            this.technologyRepository = technologyRepository;
         }
 
         // GET: api/TechnologiesApi

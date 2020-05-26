@@ -31,7 +31,7 @@ namespace Demo.Data.Repositories
             return student;
         }
 
-        public async Task<bool> UpdateStudent(Student student)
+        public async Task<bool> UpdateStudent(long id, Student student)
         {
             return true;
         }

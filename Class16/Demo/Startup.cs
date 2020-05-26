@@ -34,8 +34,12 @@ namespace Demo
             });
 
             // When a controller asks for IStudentRepository,
+
             // Give them a NotDatabaseRepository!
-            services.AddTransient<IStudentRepository, NotDatabaseStudentRepository>();
+            // services.AddTransient<IStudentRepository, NotDatabaseStudentRepository>();
+
+            // Give them a DatabaseRepository!
+            services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

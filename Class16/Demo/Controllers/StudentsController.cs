@@ -22,14 +22,12 @@ namespace Demo.Controllers
         public async Task<ActionResult<IEnumerable<Student>>> GetStudent()
         {
             return Ok(await studentRepository.GetAllStudents());
-            // return await _context.Student.ToListAsync();
         }
 
         // GET: api/Students/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(long id)
         {
-            // var student = await _context.Student.FindAsync(id);
             var student = await studentRepository.GetOneStudent(id);
 
             if (student == null)
@@ -51,29 +49,12 @@ namespace Demo.Controllers
                 return BadRequest();
             }
 
-            bool didUpdate = await studentRepository.UpdateStudent(student);
+            bool didUpdate = await studentRepository.UpdateStudent(id, student);
 
             if (!didUpdate)
             {
                 return NotFound();
             }
-            //_context.Entry(student).State = EntityState.Modified;
-
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!StudentExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
 
             return NoContent();
         }
@@ -85,9 +66,6 @@ namespace Demo.Controllers
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
             await studentRepository.SaveNewStudent(student);
-
-            //_context.Student.Add(student);
-            //await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetStudent", new { id = student.Id }, student);
         }
@@ -108,12 +86,6 @@ namespace Demo.Controllers
             //await _context.SaveChangesAsync();
 
             return student;
-        }
-
-        private bool StudentExists(long id)
-        {
-            return false;
-            // return _context.Student.Any(e => e.Id == id);
         }
     }
 }

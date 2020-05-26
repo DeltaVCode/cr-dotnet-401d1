@@ -16,7 +16,7 @@ namespace Demo.Data.Repositories
         /// </summary>
         /// <param name="student"></param>
         /// <returns>student exists or not</returns>
-        Task<bool> UpdateStudent(Student student);
+        Task<bool> UpdateStudent(long id, Student student);
 
         Task<Student> SaveNewStudent(Student student);
 
