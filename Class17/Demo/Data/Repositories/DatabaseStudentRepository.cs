@@ -16,7 +16,7 @@ namespace Demo.Data.Repositories
             _context = context;
         }
 
-        public async Task<Student> DeleteStudent(long id)
+        public async Task<StudentDTO> DeleteStudent(long id)
         {
             var student = await _context.Student.FindAsync(id);
             if (student == null)
@@ -24,10 +24,12 @@ namespace Demo.Data.Repositories
                 return null;
             }
 
+            var studentToReturn = await GetOneStudent(id);
+
             _context.Student.Remove(student);
             await _context.SaveChangesAsync();
 
-            return student;
+            return studentToReturn;
         }
 
         public async Task<IEnumerable<StudentDTO>> GetAllStudents()
@@ -99,11 +101,11 @@ namespace Demo.Data.Repositories
             //};
         }
 
-        public async Task<Student> SaveNewStudent(Student student)
+        public async Task<StudentDTO> SaveNewStudent(Student student)
         {
             _context.Student.Add(student);
             await _context.SaveChangesAsync();
-            return student;
+            return await GetOneStudent(student.Id);
         }
 
         public async Task<bool> UpdateStudent(long id, Student student)

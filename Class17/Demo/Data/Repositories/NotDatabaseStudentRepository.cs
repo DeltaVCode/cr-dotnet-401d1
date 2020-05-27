@@ -7,7 +7,7 @@ namespace Demo.Data.Repositories
 {
     public class NotDatabaseStudentRepository : IStudentRepository
     {
-        public async Task<Student> DeleteStudent(long id)
+        public async Task<StudentDTO> DeleteStudent(long id)
         {
             return null;
         }
@@ -27,9 +27,9 @@ namespace Demo.Data.Repositories
             return new StudentDTO { Id = id, FirstName = "Test", LastName = "Dummy" };
         }
 
-        public async Task<Student> SaveNewStudent(Student student)
+        public async Task<StudentDTO> SaveNewStudent(Student student)
         {
-            return student;
+            return null;
         }
 
         public async Task<bool> UpdateStudent(long id, Student student)

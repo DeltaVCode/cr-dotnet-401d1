@@ -19,13 +19,13 @@ namespace Demo.Data.Repositories
         /// <returns>student exists or not</returns>
         Task<bool> UpdateStudent(long id, Student student);
 
-        Task<Student> SaveNewStudent(Student student);
+        Task<StudentDTO> SaveNewStudent(Student student);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns>student that was deleted</returns>
-        Task<Student> DeleteStudent(long id);
+        Task<StudentDTO> DeleteStudent(long id);
     }
 }
