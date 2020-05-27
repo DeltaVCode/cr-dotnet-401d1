@@ -27,7 +27,7 @@ namespace Demo.Controllers
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(long id)
+        public async Task<ActionResult<StudentDTO>> GetStudent(long id)
         {
             var student = await studentRepository.GetOneStudent(id);
 

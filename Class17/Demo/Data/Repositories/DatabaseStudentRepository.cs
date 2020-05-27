@@ -54,9 +54,49 @@ namespace Demo.Data.Repositories
             return students;
         }
 
-        public async Task<Student> GetOneStudent(long id)
+        public async Task<StudentDTO> GetOneStudent(long id)
         {
-            return await _context.Student.FindAsync(id);
+            var student = await _context.Student
+                // Rabbit hole of including all the things...still need Technology!
+                //.Include(student => student.Enrollments)
+                //    .ThenInclude(e => e.Course)
+
+                // Project in SQL instead of C#!
+                .Select(student => new StudentDTO
+                {
+                    Id = student.Id,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+
+                    Courses = student.Enrollments
+                        .Select(e => new CourseDTO
+                        {
+                            Id = e.Course.Id,
+                            CourseCode = e.Course.CourseCode,
+                            TechnologyName = e.Course.Technology.Name,
+                        })
+                        .ToList(),
+                })
+                .FirstOrDefaultAsync(student => student.Id == id);
+
+            return student;
+
+            // Instead of projecting in C# on the web server
+            //return new StudentDTO
+            //{
+            //    Id = student.Id,
+            //    FirstName = student.FirstName,
+            //    LastName = student.LastName,
+
+            //    Courses = student.Enrollments
+            //            .Select(e => new CourseDTO
+            //            {
+            //                Id = e.Course.Id,
+            //                CourseCode = e.Course.CourseCode,
+            //                TechnologyName = e.Course.Technology.Name,
+            //            })
+            //            .ToList(),
+            //};
         }
 
         public async Task<Student> SaveNewStudent(Student student)

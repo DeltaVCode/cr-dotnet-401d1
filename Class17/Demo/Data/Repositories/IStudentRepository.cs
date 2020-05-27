@@ -10,7 +10,7 @@ namespace Demo.Data.Repositories
     {
         Task<IEnumerable<StudentDTO>> GetAllStudents();
 
-        Task<Student> GetOneStudent(long id);
+        Task<StudentDTO> GetOneStudent(long id);
 
         /// <summary>
         /// 

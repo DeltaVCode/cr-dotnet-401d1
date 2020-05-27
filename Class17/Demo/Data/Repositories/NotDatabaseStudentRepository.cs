@@ -22,9 +22,9 @@ namespace Demo.Data.Repositories
             };
         }
 
-        public async Task<Student> GetOneStudent(long id)
+        public async Task<StudentDTO> GetOneStudent(long id)
         {
-            return new Student { Id = id, FirstName = "Test", LastName = "Dummy" };
+            return new StudentDTO { Id = id, FirstName = "Test", LastName = "Dummy" };
         }
 
         public async Task<Student> SaveNewStudent(Student student)
