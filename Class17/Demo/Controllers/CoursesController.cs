@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Demo.Data;
+using Demo.Data.Repositories;
 using Demo.Models;
 using Demo.Models.Api;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace Demo.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
+        private readonly ICourseRepository courseRepository;
         private readonly SchoolDbContext _context;
 
-        public CoursesController(SchoolDbContext context)
+        public CoursesController(ICourseRepository courseRepository, SchoolDbContext context)
         {
+            this.courseRepository = courseRepository;
             _context = context;
         }
 
@@ -116,6 +119,18 @@ namespace Demo.Controllers
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.Id == id);
+        }
+
+        /*
+            GET /api/Courses/{id}/Students
+            POST /api/Courses/{courseId}/Students { studentId: 5 }
+            DELETE /api/Courses/{courseId}/Students/{studentId}
+        */
+        [HttpGet("{courseId}/Students")]
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudents(int courseId)
+        {
+            var students = await courseRepository.GetStudents(courseId);
+            return Ok(students);
         }
     }
 }

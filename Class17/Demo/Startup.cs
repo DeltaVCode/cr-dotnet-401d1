@@ -39,6 +39,7 @@ namespace Demo
             // services.AddTransient<IStudentRepository, NotDatabaseStudentRepository>();
 
             // Give them a DatabaseRepository!
+            services.AddTransient<ICourseRepository, DatabaseCourseRepository>();
             services.AddTransient<IStudentRepository, DatabaseStudentRepository>();
         }
 
