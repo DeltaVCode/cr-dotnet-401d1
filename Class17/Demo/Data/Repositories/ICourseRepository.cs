@@ -9,5 +9,7 @@ namespace Demo.Data.Repositories
         // TODO: Add GET/POST/PUT/DELETE
 
         Task<IEnumerable<StudentDTO>> GetStudents(int courseId);
+        Task EnrollStudent(int courseId, long studentId);
+        Task RemoveStudent(int courseId, long studentId);
     }
 }

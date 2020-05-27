@@ -132,5 +132,19 @@ namespace Demo.Controllers
             var students = await courseRepository.GetStudents(courseId);
             return Ok(students);
         }
+
+        [HttpPost("{courseId}/Students")]
+        public async Task<ActionResult> EnrollStudent(int courseId, EnrollStudentData student)
+        {
+            await courseRepository.EnrollStudent(courseId, student.StudentId);
+            return NoContent();
+        }
+
+        [HttpDelete("{courseId}/Students/{studentId}")]
+        public async Task<ActionResult> UnenrollStudent(int courseId, long studentId)
+        {
+            await courseRepository.RemoveStudent(courseId, studentId);
+            return NoContent();
+        }
     }
 }

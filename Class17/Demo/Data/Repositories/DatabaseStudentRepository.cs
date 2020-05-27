@@ -36,6 +36,8 @@ namespace Demo.Data.Repositories
         {
             var students = await _context.Student
                 //.Include(student => student.Enrollments) // Causes cycle in serialization
+
+                // Project from Student to StudentDTO
                 .Select(student => new StudentDTO
                 {
                     Id = student.Id,
@@ -51,6 +53,11 @@ namespace Demo.Data.Repositories
                         })
                         .ToList(),
                 })
+
+                // Optional additional queries
+                // .Where(student => student.IsActive)
+
+                // Actually get from database
                 .ToListAsync();
 
             return students;
@@ -79,6 +86,8 @@ namespace Demo.Data.Repositories
                         })
                         .ToList(),
                 })
+
+                // Actually get one by ID
                 .FirstOrDefaultAsync(student => student.Id == id);
 
             return student;

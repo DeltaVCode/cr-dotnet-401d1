@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Demo.Models;
 using Demo.Models.Api;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,14 @@ namespace Demo.Data.Repositories
         public DatabaseCourseRepository(SchoolDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task EnrollStudent(int courseId, long studentId)
+        {
+            // TODO: make sure course/student exist
+            var enrollment = new Enrollment { CourseId = courseId, StudentId = studentId };
+            dbContext.Enrollments.Add(enrollment);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<StudentDTO>> GetStudents(int courseId)
@@ -28,6 +37,20 @@ namespace Demo.Data.Repositories
                 .ToListAsync();
 
             return students;
+        }
+
+        public async Task RemoveStudent(int courseId, long studentId)
+        {
+            var enrollment = await dbContext.Enrollments
+                .Where(e => e.CourseId == courseId)
+                .Where(e => e.StudentId == studentId)
+                .FirstOrDefaultAsync();
+
+            if (enrollment != null)
+            {
+                dbContext.Enrollments.Remove(enrollment);
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }
