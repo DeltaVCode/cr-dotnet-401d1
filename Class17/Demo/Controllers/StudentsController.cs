@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Demo.Data.Repositories;
 using Demo.Models;
+using Demo.Models.Api;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Controllers
@@ -19,7 +20,7 @@ namespace Demo.Controllers
 
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetStudent()
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudent()
         {
             return Ok(await studentRepository.GetAllStudents());
         }

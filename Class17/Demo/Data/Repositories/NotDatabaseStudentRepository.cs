@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Demo.Models;
+using Demo.Models.Api;
 
 namespace Demo.Data.Repositories
 {
@@ -11,13 +12,13 @@ namespace Demo.Data.Repositories
             return null;
         }
 
-        public async Task<IEnumerable<Student>> GetAllStudents()
+        public async Task<IEnumerable<StudentDTO>> GetAllStudents()
         {
             return new[]
             {
-                new Student { Id=5, FirstName = "Keith", LastName = "Dahlby" },
-                new Student { Id=3,FirstName = "Craig", LastName = "Barkley" },
-                new Student { Id=1,FirstName = "Ian", LastName = "Smith" },
+                new StudentDTO { Id=5, FirstName = "Keith", LastName = "Dahlby" },
+                new StudentDTO { Id=3,FirstName = "Craig", LastName = "Barkley" },
+                new StudentDTO { Id=1,FirstName = "Ian", LastName = "Smith" },
             };
         }
 

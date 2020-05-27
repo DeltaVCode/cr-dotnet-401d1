@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Demo.Models;
+using Demo.Models.Api;
 
 namespace Demo.Data.Repositories
 {
 
     public interface IStudentRepository
     {
-        Task<IEnumerable<Student>> GetAllStudents();
+        Task<IEnumerable<StudentDTO>> GetAllStudents();
 
         Task<Student> GetOneStudent(long id);
 

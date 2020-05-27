@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Demo.Models;
+using Demo.Models.Api;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Data.Repositories
@@ -29,9 +30,28 @@ namespace Demo.Data.Repositories
             return student;
         }
 
-        public async Task<IEnumerable<Student>> GetAllStudents()
+        public async Task<IEnumerable<StudentDTO>> GetAllStudents()
         {
-            return await _context.Student.ToListAsync();
+            var students = await _context.Student
+                //.Include(student => student.Enrollments) // Causes cycle in serialization
+                .Select(student => new StudentDTO
+                {
+                    Id = student.Id,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+
+                    Courses = student.Enrollments
+                        .Select(e => new CourseDTO
+                        {
+                            Id = e.Course.Id,
+                            CourseCode = e.Course.CourseCode,
+                            TechnologyName = e.Course.Technology.Name,
+                        })
+                        .ToList(),
+                })
+                .ToListAsync();
+
+            return students;
         }
 
         public async Task<Student> GetOneStudent(long id)
