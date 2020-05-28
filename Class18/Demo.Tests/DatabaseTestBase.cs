@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Demo.Data;
+using Demo.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
 
 namespace Demo.Tests
 {
@@ -27,6 +30,15 @@ namespace Demo.Tests
         {
             _db?.Dispose();
             _connection?.Dispose();
+        }
+
+        protected async Task<Student> CreateAndSaveTestStudent()
+        {
+            var student = new Student { FirstName = "Test", LastName = "Whatever" };
+            _db.Student.Add(student);
+            await _db.SaveChangesAsync();
+            Assert.NotEqual(0, student.Id); // Sanity check
+            return student;
         }
     }
 }
