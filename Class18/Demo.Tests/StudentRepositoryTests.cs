@@ -8,8 +8,10 @@ namespace Demo.Tests
 {
     public class StudentRepositoryTests : DatabaseTestBase
     {
-        private IStudentRepository BuildRepository() =>
-            new DatabaseStudentRepository(_db);
+        private IStudentRepository BuildRepository()
+        {
+            return new DatabaseStudentRepository(_db);
+        }
 
         [Fact]
         public async Task Can_save_and_get()
