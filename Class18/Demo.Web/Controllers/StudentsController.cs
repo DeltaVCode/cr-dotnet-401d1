@@ -33,7 +33,14 @@ namespace Demo.Web.Controllers
         // GET: Students/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var student = new Student
+            {
+                FirstName = "Details",
+                LastName = "Demo",
+                Id = id,
+            };
+
+            return View(student);
         }
 
         // GET: Students/Create
@@ -45,7 +52,7 @@ namespace Demo.Web.Controllers
         // POST: Students/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Student student)
         {
             try
             {
