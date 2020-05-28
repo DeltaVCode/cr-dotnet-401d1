@@ -16,9 +16,9 @@ namespace Demo.Tests
         public async Task Can_enroll_and_unenroll_a_studentAsync()
         {
             // Arrange
-            var studentRepository = new DatabaseStudentRepository(_db);
             var student = new Student { FirstName = "Test", LastName = "Whatever" };
-            await studentRepository.SaveNewStudent(student);
+            _db.Student.Add(student);
+            await _db.SaveChangesAsync();
             Assert.NotEqual(0, student.Id); // Sanity check
 
             var repository = BuildRepository();
