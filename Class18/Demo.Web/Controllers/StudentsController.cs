@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Demo.Web.Models;
+using Demo.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,39 +9,24 @@ namespace Demo.Web.Controllers
 {
     public class StudentsController : Controller
     {
-        // GET: Students
-        public ActionResult Index()
-        {
-            var students = new[]
-            {
-                new Student {
-                    Id = 1,
-                    FirstName = "Keith",
-                    LastName = "Dahlby",
-                    Tuition = 50,
-                },
-                new Student
-                {
-                    Id = 2,
-                    FirstName = "Craig",
-                    LastName = "Barkley",
-                    Tuition = 0,
-                },
-            };
+        private readonly IStudentService studentService;
 
+        public StudentsController(IStudentService studentService)
+        {
+            this.studentService = studentService;
+        }
+
+        // GET: Students
+        public async Task<ActionResult> Index()
+        {
+            var students = await studentService.GetAll();
             return View(students.OrderBy(s => s.LastName).ThenBy(s => s.FirstName));
         }
 
         // GET: Students/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var student = new Student
-            {
-                FirstName = "Details",
-                LastName = "Demo",
-                Id = id,
-            };
-
+            Student student = await studentService.GetOne(id);
             return View(student);
         }
 

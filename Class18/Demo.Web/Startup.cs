@@ -1,3 +1,4 @@
+using Demo.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,10 @@ namespace Demo.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            // Singleton = only make one instance of HttpStudentService
+            // Transent = make a new one every time, e.g. with the current DbContext
+            services.AddSingleton<IStudentService, HttpStudentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
