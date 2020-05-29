@@ -1,16 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>5f0d460d-c721-4700-87a5-7133cf491d3b</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Migrations\20200521143631_SeedAnEnrollment.cs" />
     <Compile Remove="Migrations\20200521143631_SeedAnEnrollment.Designer.cs" />
     <Compile Remove="Migrations\20200521172943_AddTechnologyDesc.cs" />
     <Compile Remove="Migrations\20200521172943_AddTechnologyDesc.Designer.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.4" />
