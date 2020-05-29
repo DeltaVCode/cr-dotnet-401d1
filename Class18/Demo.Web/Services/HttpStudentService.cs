@@ -14,6 +14,21 @@ namespace Demo.Web.Services
             BaseAddress = new Uri("https://localhost:44323/api/"),
         };
 
+        public async Task<Student> Create(Student student)
+        {
+            using (var content = new StringContent(JsonSerializer.Serialize(student), System.Text.Encoding.UTF8, "application/json"))
+            {
+                var response = await client.PostAsync("Students", content);
+                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    var responseStream = await response.Content.ReadAsStreamAsync();
+                    Student result = await JsonSerializer.DeserializeAsync<Student>(responseStream);
+                    return result;
+                }
+                throw new Exception($"Failed to POST data: ({response.StatusCode})");
+            }
+        }
+
         public async Task<List<Student>> GetAll()
         {
             var responseStream = await client.GetStreamAsync("Students");

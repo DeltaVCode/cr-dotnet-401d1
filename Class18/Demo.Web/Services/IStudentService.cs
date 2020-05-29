@@ -8,5 +8,6 @@ namespace Demo.Web.Services
     {
         Task<List<Student>> GetAll();
         Task<Student> GetOne(int id);
+        Task<Student> Create(Student student);
     }
 }

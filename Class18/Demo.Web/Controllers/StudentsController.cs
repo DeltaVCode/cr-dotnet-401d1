@@ -39,11 +39,11 @@ namespace Demo.Web.Controllers
         // POST: Students/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Student student)
+        public async Task<ActionResult> Create(Student student)
         {
             try
             {
-                // TODO: Add insert logic here
+                await studentService.Create(student);
 
                 return RedirectToAction(nameof(Index));
             }
