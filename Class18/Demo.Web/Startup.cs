@@ -1,9 +1,10 @@
+using System;
+using System.Net.Http;
 using Demo.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Demo.Web
 {
@@ -21,6 +22,12 @@ namespace Demo.Web
         {
             services.AddControllersWithViews();
 
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(Configuration.GetValue<string>("API_URL")),
+            };
+            services.AddSingleton<HttpClient>(httpClient);
+
             // Singleton = only make one instance of HttpStudentService
             // Transent = make a new one every time, e.g. with the current DbContext
             services.AddSingleton<IStudentService, HttpStudentService>();
@@ -29,7 +36,7 @@ namespace Demo.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (true)
             {
                 app.UseDeveloperExceptionPage();
             }

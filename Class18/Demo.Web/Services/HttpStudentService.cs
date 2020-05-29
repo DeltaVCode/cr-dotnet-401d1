@@ -9,10 +9,12 @@ namespace Demo.Web.Services
 {
     public class HttpStudentService : IStudentService
     {
-        private static readonly HttpClient client = new HttpClient
+        private readonly HttpClient client;
+
+        public HttpStudentService(HttpClient client)
         {
-            BaseAddress = new Uri("https://localhost:44323/api/"),
-        };
+            this.client = client;
+        }
 
         public async Task<Student> Create(Student student)
         {
