@@ -32,6 +32,12 @@ namespace IdentityDemo
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddDbContext<UsersDbContext>(options =>
+            {
+                //Install-Package Microsoft.EntityFrameworkCore.SqlServer
+                options.UseSqlServer(Configuration.GetConnectionString("UsersConnection"));
+            });
+
             services.AddTransient<IPostManager, PostService>();
         }
 
