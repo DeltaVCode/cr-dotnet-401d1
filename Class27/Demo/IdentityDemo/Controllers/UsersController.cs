@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using IdentityDemo.Models.Identity;
-using Microsoft.AspNetCore.Identity;
+using IdentityDemo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,10 +15,10 @@ namespace IdentityDemo.Controller
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserManager<BlogUser> userManager;
+        private readonly IUserManager userManager;
         private readonly IConfiguration configuration;
 
-        public UsersController(UserManager<BlogUser> userManager, IConfiguration configuration)
+        public UsersController(IUserManager userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.configuration = configuration;
