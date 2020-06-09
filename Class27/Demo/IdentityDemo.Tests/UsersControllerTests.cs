@@ -3,7 +3,6 @@ using IdentityDemo.Controller;
 using IdentityDemo.Models.Identity;
 using IdentityDemo.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace IdentityDemo.Tests
 
             var login = new LoginData { Username = "Keith!" };
 
-            var controller = new UsersController(userManager.Object, null);
+            var controller = new UsersController(userManager.Object);
 
             // Act
             var result = await controller.Login(login);
@@ -39,7 +38,7 @@ namespace IdentityDemo.Tests
             userManager.Setup(s => s.FindByNameAsync(login.Username))
                 .ReturnsAsync(new BlogUser { UserName = login.Username });
 
-            var controller = new UsersController(userManager.Object, null);
+            var controller = new UsersController(userManager.Object);
 
             // Act
             var result = await controller.Login(login);
@@ -63,11 +62,10 @@ namespace IdentityDemo.Tests
             userManager.Setup(s => s.CheckPasswordAsync(user, login.Password))
                 .ReturnsAsync(true);
 
-            var mockConfig = new Mock<IConfiguration>();
-            mockConfig.SetupGet(c => c["JWT:Secret"])
-                .Returns("Super secret! Make this longer because it has to be...?");
+            userManager.Setup(s => s.CreateToken(user))
+                .Returns("test token!");
 
-            var controller = new UsersController(userManager.Object, mockConfig.Object);
+            var controller = new UsersController(userManager.Object);
 
             // Act
             var result = await controller.Login(login);
@@ -76,8 +74,7 @@ namespace IdentityDemo.Tests
             var okResult = Assert.IsType<OkObjectResult>(result);
             var userWithToken = Assert.IsType<UserWithToken>(okResult.Value);
             Assert.Equal(user.Id, userWithToken.UserId);
-            Assert.NotNull(userWithToken.Token);
-            Assert.NotEmpty(userWithToken.Token);
+            Assert.Equal("test token!", userWithToken.Token);
         }
     }
 }

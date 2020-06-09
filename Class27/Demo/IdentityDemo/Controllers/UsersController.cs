@@ -1,13 +1,7 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using IdentityDemo.Models.Identity;
 using IdentityDemo.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityDemo.Controller
 {
@@ -16,12 +10,10 @@ namespace IdentityDemo.Controller
     public class UsersController : ControllerBase
     {
         private readonly IUserManager userManager;
-        private readonly IConfiguration configuration;
 
-        public UsersController(IUserManager userManager, IConfiguration configuration)
+        public UsersController(IUserManager userManager)
         {
             this.userManager = userManager;
-            this.configuration = configuration;
         }
 
         [HttpPost("Login")]
@@ -39,7 +31,7 @@ namespace IdentityDemo.Controller
                     return Ok(new UserWithToken
                     {
                         UserId = user.Id,
-                        Token = CreateToken(user),
+                        Token = userManager.CreateToken(user),
                     });
                 }
 
@@ -77,7 +69,7 @@ namespace IdentityDemo.Controller
             return Ok(new UserWithToken
             {
                 UserId = user.Id,
-                Token = CreateToken(user),
+                Token = userManager.CreateToken(user),
             });
         }
 
@@ -119,30 +111,6 @@ namespace IdentityDemo.Controller
                 user.LastName,
                 user.BirthDate,
             });
-        }
-
-        private string CreateToken(BlogUser user)
-        {
-            var secret = configuration["JWT:Secret"];
-            var secretBytes = Encoding.UTF8.GetBytes(secret);
-            var signingKey = new SymmetricSecurityKey(secretBytes);
-
-            var tokenClaims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim("UserId", user.Id),
-                new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-            };
-
-            var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddSeconds(10),
-                claims: tokenClaims,
-                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return tokenString;
         }
     }
 }
