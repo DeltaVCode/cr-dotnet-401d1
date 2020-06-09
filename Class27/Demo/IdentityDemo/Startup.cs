@@ -1,8 +1,10 @@
 using IdentityDemo.Data;
+using IdentityDemo.Models.Identity;
 using IdentityDemo.Models.Interfaces;
 using IdentityDemo.Models.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,10 @@ namespace IdentityDemo
                 //Install-Package Microsoft.EntityFrameworkCore.SqlServer
                 options.UseSqlServer(Configuration.GetConnectionString("UsersConnection"));
             });
+
+            services.AddIdentity<BlogUser, IdentityRole>()
+                .AddEntityFrameworkStores<UsersDbContext>()
+                ;
 
             services.AddTransient<IPostManager, PostService>();
         }
