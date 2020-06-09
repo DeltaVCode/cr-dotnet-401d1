@@ -16,6 +16,26 @@ namespace IdentityDemo.Data
             this.userManager = userManager;
         }
 
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginData login)
+        {
+            // This might be used if you want to save an Auth cookie
+            // var result = await signInManager.PasswordSignInAsync(login.Username, login.Password, false, false);
+
+            var user = await userManager.FindByNameAsync(login.Username);
+            if (user == null)
+                return Unauthorized();
+
+            var result = await userManager.CheckPasswordAsync(user, login.Password);
+            if (!result)
+                return Unauthorized();
+
+            return Ok(new
+            {
+                UserId = user.Id,
+            });
+        }
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterData register)
         {
