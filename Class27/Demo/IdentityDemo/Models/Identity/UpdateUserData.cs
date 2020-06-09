@@ -3,13 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IdentityDemo.Models.Identity
 {
-    public class RegisterData
+    public class UpdateUserData
     {
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
-
         [Required]
         public string FirstName { get; set; }
         [Required]
