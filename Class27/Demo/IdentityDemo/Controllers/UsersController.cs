@@ -36,7 +36,7 @@ namespace IdentityDemo.Controller
                 var result = await userManager.CheckPasswordAsync(user, login.Password);
                 if (result)
                 {
-                    return Ok(new
+                    return Ok(new UserWithToken
                     {
                         UserId = user.Id,
                         Token = CreateToken(user),
@@ -74,7 +74,7 @@ namespace IdentityDemo.Controller
                 });
             }
 
-            return Ok(new
+            return Ok(new UserWithToken
             {
                 UserId = user.Id,
                 Token = CreateToken(user),

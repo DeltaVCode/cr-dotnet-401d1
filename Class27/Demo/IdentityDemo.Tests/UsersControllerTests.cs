@@ -74,7 +74,10 @@ namespace IdentityDemo.Tests
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(okResult.Value);
+            var userWithToken = Assert.IsType<UserWithToken>(okResult.Value);
+            Assert.Equal(user.Id, userWithToken.UserId);
+            Assert.NotNull(userWithToken.Token);
+            Assert.NotEmpty(userWithToken.Token);
         }
     }
 }
