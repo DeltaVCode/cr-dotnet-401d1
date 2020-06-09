@@ -1,0 +1,1 @@
+1. https://dev.to/loopdelicious/using-jwt-to-authenticate-and-authorize-requests-in-postman-3a5h
