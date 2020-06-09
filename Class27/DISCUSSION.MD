@@ -1,4 +1,4 @@
-# Readings: Intro to Identity
+# Readings: Authentication
 
 ## Submission Requirements
 
