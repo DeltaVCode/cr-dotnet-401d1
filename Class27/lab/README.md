@@ -22,6 +22,10 @@ A few things to keep in mind:
 2. Use the demo code as a resource
 3. Test all routes with Postman and breakpoints to ensure you are receiving expected behavior.
 
+## Stretch Goals
+
+- Implement Basic Authentication ([tutorial](https://jasonwatmore.com/post/2019/10/21/aspnet-core-3-basic-authentication-tutorial-with-example-api))
+
 ## Tests
 
 No additional tests required for today
