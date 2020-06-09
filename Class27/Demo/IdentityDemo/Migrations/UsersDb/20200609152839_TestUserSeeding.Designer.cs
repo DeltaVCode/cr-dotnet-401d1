@@ -4,14 +4,16 @@ using IdentityDemo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IdentityDemo.Migrations.UsersDb
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200609152839_TestUserSeeding")]
+    partial class TestUserSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,6 +93,23 @@ namespace IdentityDemo.Migrations.UsersDb
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dbfcc1a5-fe40-4539-9e3c-ae5d75c09e19",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d6021be4-a1fb-4265-9a99-69353b243cee",
+                            EmailConfirmed = false,
+                            FirstName = "Keith",
+                            LastName = "Dahlby",
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAEJcltf7DARNNFfCIS4Uz9uf6vjNJW9HqoFtUiIpymvzqxov24vihIVTVbBmJHkgqvw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "dee200a6-c80a-4328-9f32-8be7c268f114",
+                            TwoFactorEnabled = false,
+                            UserName = "keith"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -129,7 +148,7 @@ namespace IdentityDemo.Migrations.UsersDb
                         new
                         {
                             Id = "moderator",
-                            ConcurrencyStamp = "79b16ad0-71fc-4d45-851a-c8c0544adf1d",
+                            ConcurrencyStamp = "77ab348b-69d4-4e9a-9515-0a5c60bbf840",
                             Name = "Moderator"
                         });
                 });
@@ -217,6 +236,13 @@ namespace IdentityDemo.Migrations.UsersDb
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "dbfcc1a5-fe40-4539-9e3c-ae5d75c09e19",
+                            RoleId = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
