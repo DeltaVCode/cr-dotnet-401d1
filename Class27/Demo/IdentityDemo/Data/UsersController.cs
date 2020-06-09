@@ -23,17 +23,20 @@ namespace IdentityDemo.Data
             // var result = await signInManager.PasswordSignInAsync(login.Username, login.Password, false, false);
 
             var user = await userManager.FindByNameAsync(login.Username);
-            if (user == null)
-                return Unauthorized();
-
-            var result = await userManager.CheckPasswordAsync(user, login.Password);
-            if (!result)
-                return Unauthorized();
-
-            return Ok(new
+            if (user != null)
             {
-                UserId = user.Id,
-            });
+                var result = await userManager.CheckPasswordAsync(user, login.Password);
+                if (result)
+                {
+                    return Ok(new
+                    {
+                        UserId = user.Id,
+                    });
+                }
+            }
+
+            await userManager.AccessFailedAsync(user);
+            return Unauthorized();
         }
 
         [HttpPost("Register")]
