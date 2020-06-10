@@ -1,8 +1,13 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using IdentityDemo.Models.Identity;
-using IdentityDemo.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityDemo.Controller
 {
@@ -10,11 +15,13 @@ namespace IdentityDemo.Controller
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService userService;
+        private readonly UserManager<BlogUser> userManager;
+        private readonly IConfiguration configuration;
 
-        public UsersController(IUserService userService)
+        public UsersController(UserManager<BlogUser> userManager, IConfiguration configuration)
         {
-            this.userService = userService;
+            this.userManager = userManager;
+            this.configuration = configuration;
         }
 
         [HttpPost("Login")]
@@ -23,21 +30,22 @@ namespace IdentityDemo.Controller
             // This might be used if you want to save an Auth cookie
             // var result = await signInManager.PasswordSignInAsync(login.Username, login.Password, false, false);
 
-            var user = await userService.FindByNameAsync(login.Username);
+            var user = await userManager.FindByNameAsync(login.Username);
             if (user != null)
             {
-                var result = await userService.CheckPasswordAsync(user, login.Password);
+                var result = await userManager.CheckPasswordAsync(user, login.Password);
                 if (result)
                 {
-                    return Ok(new UserWithToken
+                    return Ok(new
                     {
                         UserId = user.Id,
-                        Token = userService.CreateToken(user),
+                        Token = CreateToken(user),
                     });
                 }
 
-                await userService.AccessFailedAsync(user);
+                await userManager.AccessFailedAsync(user);
             }
+
             return Unauthorized();
         }
 
@@ -54,7 +62,7 @@ namespace IdentityDemo.Controller
                 BirthDate = register.BirthDate,
             };
 
-            var result = await userService.CreateAsync(user, register.Password);
+            var result = await userManager.CreateAsync(user, register.Password);
 
             if (!result.Succeeded)
             {
@@ -66,17 +74,17 @@ namespace IdentityDemo.Controller
                 });
             }
 
-            return Ok(new UserWithToken
+            return Ok(new
             {
                 UserId = user.Id,
-                Token = userService.CreateToken(user),
+                Token = CreateToken(user),
             });
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUser(string userId)
         {
-            var user = await userService.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
             if (user == null)
                 return NotFound();
 
@@ -93,7 +101,7 @@ namespace IdentityDemo.Controller
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, UpdateUserData data)
         {
-            var user = await userService.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
             if (user == null)
                 return NotFound();
 
@@ -101,25 +109,40 @@ namespace IdentityDemo.Controller
             user.LastName = data.LastName;
             user.BirthDate = data.BirthDate;
 
-            await userService.UpdateAsync(user);
+            await userManager.UpdateAsync(user);
 
-            return Ok(new UserDTO
+            return Ok(new
             {
                 UserId = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                BirthDate = user.BirthDate,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.BirthDate,
             });
         }
-    }
 
-    public class UserDTO
-    {
-        public string UserId { get; set; }
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime? BirthDate { get; set; }
+        private string CreateToken(BlogUser user)
+        {
+            var secret = configuration["JWT:Secret"];
+            var secretBytes = Encoding.UTF8.GetBytes(secret);
+            var signingKey = new SymmetricSecurityKey(secretBytes);
+
+            var tokenClaims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim("UserId", user.Id),
+                new Claim("FullName", $"{user.FirstName} {user.LastName}"),
+            };
+
+            var token = new JwtSecurityToken(
+                expires: DateTime.UtcNow.AddSeconds(10),
+                claims: tokenClaims,
+                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return tokenString;
+        }
     }
 }
