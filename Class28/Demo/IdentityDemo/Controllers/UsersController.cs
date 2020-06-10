@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using IdentityDemo.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,34 @@ namespace IdentityDemo.Controller
         {
             this.userManager = userManager;
             this.configuration = configuration;
+        }
+
+        [Authorize]
+        [HttpGet("Self")]
+        public async Task<IActionResult> Self()
+        {
+            if (HttpContext.User.Identity is ClaimsIdentity identity)
+            {
+                var usernameClaim = identity.FindFirst("UserId");
+                var userId = usernameClaim.Value;
+
+                var user = await userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                return Ok(new
+                {
+                    UserId = user.Id,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                    user.BirthDate,
+                });
+            }
+
+            return Unauthorized();
         }
 
         [HttpPost("Login")]
@@ -135,7 +164,7 @@ namespace IdentityDemo.Controller
             };
 
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddSeconds(10),
+                expires: DateTime.UtcNow.AddMinutes(10),
                 claims: tokenClaims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
                 );
