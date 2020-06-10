@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using IdentityDemo.Controller;
 using IdentityDemo.Models.Identity;
@@ -14,11 +15,15 @@ namespace IdentityDemo.Tests
         public async Task Login_fails_with_missing_user()
         {
             // Arrange
-            var userManager = new Mock<IUserManager>();
+            var userService = new Mock<IUserService>();
+
+            // throw if AccessFailedAsync() called without a user
+            userService.Setup(m => m.AccessFailedAsync(null))
+                .Throws(new ArgumentNullException());
 
             var login = new LoginData { Username = "Keith!" };
 
-            var controller = new UsersController(userManager.Object);
+            var controller = new UsersController(userService.Object);
 
             // Act
             var result = await controller.Login(login);
@@ -31,14 +36,14 @@ namespace IdentityDemo.Tests
         public async Task Login_fails_with_invalid_password()
         {
             // Arrange
-            var userManager = new Mock<IUserManager>();
+            var userService = new Mock<IUserService>();
 
             var login = new LoginData { Username = "Keith!" };
 
-            userManager.Setup(s => s.FindByNameAsync(login.Username))
+            userService.Setup(s => s.FindByNameAsync(login.Username))
                 .ReturnsAsync(new BlogUser { UserName = login.Username });
 
-            var controller = new UsersController(userManager.Object);
+            var controller = new UsersController(userService.Object);
 
             // Act
             var result = await controller.Login(login);
@@ -51,21 +56,21 @@ namespace IdentityDemo.Tests
         public async Task Login_succeeds_with_valid_password()
         {
             // Arrange
-            var userManager = new Mock<IUserManager>();
+            var userService = new Mock<IUserService>();
 
             var login = new LoginData { Username = "Keith!", Password = "!!!" };
 
             var user = new BlogUser { UserName = login.Username };
-            userManager.Setup(s => s.FindByNameAsync(login.Username))
+            userService.Setup(s => s.FindByNameAsync(login.Username))
                 .ReturnsAsync(user);
 
-            userManager.Setup(s => s.CheckPasswordAsync(user, login.Password))
+            userService.Setup(s => s.CheckPasswordAsync(user, login.Password))
                 .ReturnsAsync(true);
 
-            userManager.Setup(s => s.CreateToken(user))
+            userService.Setup(s => s.CreateToken(user))
                 .Returns("test token!");
 
-            var controller = new UsersController(userManager.Object);
+            var controller = new UsersController(userService.Object);
 
             // Act
             var result = await controller.Login(login);

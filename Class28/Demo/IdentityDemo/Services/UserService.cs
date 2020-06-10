@@ -10,12 +10,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityDemo.Services
 {
-    public class UserManagerWrapper : IUserManager
+    public class UserService : IUserService
     {
         private readonly UserManager<BlogUser> userManager;
         private readonly IConfiguration configuration;
 
-        public UserManagerWrapper(UserManager<BlogUser> userManager, IConfiguration configuration)
+        public UserService(UserManager<BlogUser> userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.configuration = configuration;
@@ -74,16 +74,5 @@ namespace IdentityDemo.Services
 
             return tokenString;
         }
-    }
-
-    public interface IUserManager
-    {
-        Task<BlogUser> FindByNameAsync(string username);
-        Task<bool> CheckPasswordAsync(BlogUser user, string password);
-        Task AccessFailedAsync(BlogUser user);
-        Task<IdentityResult> CreateAsync(BlogUser user, string password);
-        Task<BlogUser> FindByIdAsync(string userId);
-        Task<IdentityResult> UpdateAsync(BlogUser user);
-        string CreateToken(BlogUser user);
     }
 }

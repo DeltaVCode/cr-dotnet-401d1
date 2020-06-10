@@ -9,11 +9,11 @@ namespace IdentityDemo.Controller
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserManager userManager;
+        private readonly IUserService userService;
 
-        public UsersController(IUserManager userManager)
+        public UsersController(IUserService userService)
         {
-            this.userManager = userManager;
+            this.userService = userService;
         }
 
         [HttpPost("Login")]
@@ -22,22 +22,21 @@ namespace IdentityDemo.Controller
             // This might be used if you want to save an Auth cookie
             // var result = await signInManager.PasswordSignInAsync(login.Username, login.Password, false, false);
 
-            var user = await userManager.FindByNameAsync(login.Username);
+            var user = await userService.FindByNameAsync(login.Username);
             if (user != null)
             {
-                var result = await userManager.CheckPasswordAsync(user, login.Password);
+                var result = await userService.CheckPasswordAsync(user, login.Password);
                 if (result)
                 {
                     return Ok(new UserWithToken
                     {
                         UserId = user.Id,
-                        Token = userManager.CreateToken(user),
+                        Token = userService.CreateToken(user),
                     });
                 }
 
-                await userManager.AccessFailedAsync(user);
+                await userService.AccessFailedAsync(user);
             }
-
             return Unauthorized();
         }
 
@@ -54,7 +53,7 @@ namespace IdentityDemo.Controller
                 BirthDate = register.BirthDate,
             };
 
-            var result = await userManager.CreateAsync(user, register.Password);
+            var result = await userService.CreateAsync(user, register.Password);
 
             if (!result.Succeeded)
             {
@@ -69,14 +68,14 @@ namespace IdentityDemo.Controller
             return Ok(new UserWithToken
             {
                 UserId = user.Id,
-                Token = userManager.CreateToken(user),
+                Token = userService.CreateToken(user),
             });
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUser(string userId)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userService.FindByIdAsync(userId);
             if (user == null)
                 return NotFound();
 
@@ -93,7 +92,7 @@ namespace IdentityDemo.Controller
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, UpdateUserData data)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userService.FindByIdAsync(userId);
             if (user == null)
                 return NotFound();
 
@@ -101,7 +100,7 @@ namespace IdentityDemo.Controller
             user.LastName = data.LastName;
             user.BirthDate = data.BirthDate;
 
-            await userManager.UpdateAsync(user);
+            await userService.UpdateAsync(user);
 
             return Ok(new
             {
