@@ -8,5 +8,7 @@ namespace IdentityDemo.Models
         [Required]
         public string Title { get; set; }
         public string Contents { get; set; }
+
+        public string CreatedByUserId { get; set; }
     }
 }

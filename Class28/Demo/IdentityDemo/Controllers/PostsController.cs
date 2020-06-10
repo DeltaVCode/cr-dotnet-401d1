@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityDemo.Models;
 using IdentityDemo.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,6 +15,8 @@ namespace IdentityDemo.Controllers
     public class PostsController : ControllerBase
     {
         private IPostManager _posts;
+
+        public object ClaimType { get; private set; }
 
         public PostsController(IPostManager posts)
         {
@@ -36,8 +38,11 @@ namespace IdentityDemo.Controllers
 
         // POST api/<PostsController>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] Post post)
         {
+            post.CreatedByUserId = GetUserId();
+
             await _posts.CreatePost(post);
 
             return Ok("Complete");
@@ -57,6 +62,11 @@ namespace IdentityDemo.Controllers
         {
             await _posts.DeletePost(id);
 
+        }
+
+        private string GetUserId()
+        {
+            return ((ClaimsIdentity)User.Identity).FindFirst("UserId")?.Value;
         }
     }
 }
