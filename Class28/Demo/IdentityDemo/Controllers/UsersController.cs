@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using IdentityDemo.Models.Identity;
 using IdentityDemo.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -102,14 +103,23 @@ namespace IdentityDemo.Controller
 
             await userService.UpdateAsync(user);
 
-            return Ok(new
+            return Ok(new UserDTO
             {
                 UserId = user.Id,
-                user.Email,
-                user.FirstName,
-                user.LastName,
-                user.BirthDate,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
             });
         }
+    }
+
+    public class UserDTO
+    {
+        public string UserId { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime? BirthDate { get; set; }
     }
 }
