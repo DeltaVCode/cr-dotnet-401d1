@@ -29,9 +29,16 @@ namespace IdentityDemo.Controllers
             return await _posts.GetAllPosts();
         }
 
+        [Authorize]
+        [HttpGet("Mine")]
+        public async Task<List<Post>> GetMine()
+        {
+            return await _posts.GetAllPostsByMe(GetUserId());
+        }
+
         // GET api/<PostsController>/5
         [HttpGet("{id}")]
-        public async Task<Post> Get(int id)
+        public async Task<PostDTO> Get(int id)
         {
             return await _posts.GetPost(id);
         }
