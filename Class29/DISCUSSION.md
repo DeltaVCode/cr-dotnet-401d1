@@ -8,5 +8,6 @@ Review the Submission Instructions for guidance on completing and submitting thi
 
 ## Readings
 
+1. [Role-based authorization](https://docs.microsoft.com/en-us/aspnet/core/security/authorization/roles)
 1. [Claims-based authorization](https://docs.microsoft.com/en-us/aspnet/core/security/authorization/claims)
-2. [Using Role Claims](https://benfoster.io/blog/asp-net-identity-role-claims/)
+1. [Using Role Claims](https://benfoster.io/blog/asp-net-identity-role-claims/)
