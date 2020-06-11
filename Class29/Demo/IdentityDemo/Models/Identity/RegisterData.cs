@@ -16,5 +16,7 @@ namespace IdentityDemo.Models.Identity
         public string LastName { get; set; }
 
         public DateTime? BirthDate { get; set; }
+
+        public string[] Roles { get; set; }
     }
 }

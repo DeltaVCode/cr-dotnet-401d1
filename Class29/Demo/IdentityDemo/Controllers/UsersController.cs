@@ -8,6 +8,7 @@ using IdentityDemo.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -83,6 +84,8 @@ namespace IdentityDemo.Controller
             return Unauthorized();
         }
 
+        [AllowAnonymous]
+        [Authorize]
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterData register)
         {
@@ -106,6 +109,13 @@ namespace IdentityDemo.Controller
                     message = "Registration failed",
                     errors = result.Errors,
                 });
+            }
+
+            // If user is an admin OR there aren't any users
+            // Allow register to include Roles
+            if (User.IsInRole("Administrator") || !await userManager.Users.AnyAsync())
+            {
+                await userManager.AddToRolesAsync(user, register.Roles);
             }
 
             return Ok(new
