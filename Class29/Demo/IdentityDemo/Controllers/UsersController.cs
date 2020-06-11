@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +18,15 @@ namespace IdentityDemo.Controller
     public class UsersController : ControllerBase
     {
         private readonly UserManager<BlogUser> userManager;
-        private readonly IUserClaimsPrincipalFactory<BlogUser> userClaimsPrincipalFactory;
+        private readonly SignInManager<BlogUser> signInManager;
         private readonly IConfiguration configuration;
 
         public UsersController(UserManager<BlogUser> userManager,
-            IUserClaimsPrincipalFactory<BlogUser> userClaimsPrincipalFactory,
+            SignInManager<BlogUser> signInManager,
             IConfiguration configuration)
         {
             this.userManager = userManager;
-            this.userClaimsPrincipalFactory = userClaimsPrincipalFactory;
+            this.signInManager = signInManager;
             this.configuration = configuration;
         }
 
@@ -171,17 +170,18 @@ namespace IdentityDemo.Controller
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var signingKey = new SymmetricSecurityKey(secretBytes);
 
-            var userPrincipal = await userClaimsPrincipalFactory.CreateAsync(user);
-            var tokenClaims = new[]
+            var principal = await signInManager.CreateUserPrincipalAsync(user);
+            var identity = (ClaimsIdentity)principal.Identity;
+            identity.AddClaims(new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim("UserId", user.Id),
                 new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-            }.Concat(userPrincipal.Claims);
+            });
 
             var token = new JwtSecurityToken(
                 expires: DateTime.UtcNow.AddMinutes(10),
-                claims: tokenClaims,
+                claims: identity.Claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
                 );
 
