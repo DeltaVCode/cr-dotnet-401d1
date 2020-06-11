@@ -38,10 +38,10 @@ namespace IdentityDemo.Models.Services
             return await _context.Posts.ToListAsync();
         }
 
-        public async Task<PostDTO> GetPost(int id)
+        public async Task<PostDTO> GetPost(int id, string userId)
         {
             var post = await _context.Posts.FindAsync(id);
-            if (post == null) return null;
+            if (post == null || post.CreatedByUserId != userId) return null;
 
             var user = await userManager.FindByIdAsync(post.CreatedByUserId);
 

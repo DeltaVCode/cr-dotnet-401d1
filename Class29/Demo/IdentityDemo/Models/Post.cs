@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace IdentityDemo.Models
 {
@@ -10,6 +11,9 @@ namespace IdentityDemo.Models
         public string Contents { get; set; }
 
         public string CreatedByUserId { get; set; }
+        public DateTime CreatedByTimestamp { get; set; }
+        public string ModifiedByUserId { get; set; }
+        public DateTime? ModifiedByTimestamp { get; set; }
     }
 
     public class PostDTO

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityDemo.Models;
@@ -22,11 +23,15 @@ namespace IdentityDemo.Controllers
         {
             _posts = posts;
         }
+
+        [AllowAnonymous]
+        [Authorize]
         // GET: api/<PostsController>
         [HttpGet]
         public async Task<List<Post>> Get()
         {
-            return await _posts.GetAllPosts();
+            var user = User;
+            return await _posts.GetAllPostsByMe(GetUserId());
         }
 
         [Authorize]
@@ -36,11 +41,16 @@ namespace IdentityDemo.Controllers
             return await _posts.GetAllPostsByMe(GetUserId());
         }
 
+        [Authorize]
         // GET api/<PostsController>/5
         [HttpGet("{id}")]
-        public async Task<PostDTO> Get(int id)
+        public async Task<ActionResult<PostDTO>> Get(int id)
         {
-            return await _posts.GetPost(id);
+            var post = await _posts.GetPost(id, GetUserId());
+            if (post == null)
+                return NotFound();
+
+            return post;
         }
 
         // POST api/<PostsController>
@@ -49,6 +59,7 @@ namespace IdentityDemo.Controllers
         public async Task<IActionResult> Post([FromBody] Post post)
         {
             post.CreatedByUserId = GetUserId();
+            post.CreatedByTimestamp = DateTime.UtcNow;
 
             await _posts.CreatePost(post);
 
@@ -57,8 +68,12 @@ namespace IdentityDemo.Controllers
 
         // PUT api/<PostsController>/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody] Post post)
         {
+            post.ModifiedByUserId = GetUserId();
+            post.ModifiedByTimestamp = DateTime.UtcNow;
+
             await _posts.UpdatePost(post, id);
             return Ok("Complete");
         }
@@ -73,7 +88,9 @@ namespace IdentityDemo.Controllers
 
         private string GetUserId()
         {
-            return ((ClaimsIdentity)User.Identity).FindFirst("UserId")?.Value;
+            ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+            Claim userIdClaim = identity.FindFirst("UserId");
+            return userIdClaim?.Value;
         }
     }
 }
