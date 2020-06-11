@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,15 @@ namespace IdentityDemo.Controller
     public class UsersController : ControllerBase
     {
         private readonly UserManager<BlogUser> userManager;
+        private readonly IUserClaimsPrincipalFactory<BlogUser> userClaimsPrincipalFactory;
         private readonly IConfiguration configuration;
 
-        public UsersController(UserManager<BlogUser> userManager, IConfiguration configuration)
+        public UsersController(UserManager<BlogUser> userManager,
+            IUserClaimsPrincipalFactory<BlogUser> userClaimsPrincipalFactory,
+            IConfiguration configuration)
         {
             this.userManager = userManager;
+            this.userClaimsPrincipalFactory = userClaimsPrincipalFactory;
             this.configuration = configuration;
         }
 
@@ -68,7 +73,7 @@ namespace IdentityDemo.Controller
                     return Ok(new
                     {
                         UserId = user.Id,
-                        Token = CreateToken(user),
+                        Token = await CreateTokenAsync(user),
                     });
                 }
 
@@ -106,7 +111,7 @@ namespace IdentityDemo.Controller
             return Ok(new
             {
                 UserId = user.Id,
-                Token = CreateToken(user),
+                Token = await CreateTokenAsync(user),
             });
         }
 
@@ -150,18 +155,19 @@ namespace IdentityDemo.Controller
             });
         }
 
-        private string CreateToken(BlogUser user)
+        private async Task<string> CreateTokenAsync(BlogUser user)
         {
             var secret = configuration["JWT:Secret"];
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var signingKey = new SymmetricSecurityKey(secretBytes);
 
+            var userPrincipal = await userClaimsPrincipalFactory.CreateAsync(user);
             var tokenClaims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim("UserId", user.Id),
                 new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-            };
+            }.Concat(userPrincipal.Claims);
 
             var token = new JwtSecurityToken(
                 expires: DateTime.UtcNow.AddMinutes(10),
