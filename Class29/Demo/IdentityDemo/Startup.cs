@@ -94,6 +94,24 @@ namespace IdentityDemo
                 // using the default is fine and a nice shortcut
                 endpoints.MapDefaultControllerRoute();
             });
+
+            var userManager = app.ApplicationServices.GetService<UserManager<BlogUser>>();
+            SeedUsersDatabase(userManager);
+        }
+
+        private async void SeedUsersDatabase(UserManager<BlogUser> userManager)
+        {
+            var hasUsers = await userManager.Users.AnyAsync();
+            if (hasUsers)
+            {
+                return;
+            }
+
+            // TODO: Add roles, if not already seeded in migrations
+            // TODO: Add intial admin user with known password
+            // userManager.CreateAsync(new BlogUser { ... }, "p@ssw0rd");
+            // TODO: Assign admin user to admin role
+            // userManager.AddToRoleAsync(user, "admin");
         }
     }
 }
