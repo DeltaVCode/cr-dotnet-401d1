@@ -55,7 +55,7 @@ namespace IdentityDemo.Controllers
 
         // POST api/<PostsController>
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "posts.create")]
         public async Task<IActionResult> Post([FromBody] Post post)
         {
             post.CreatedByUserId = GetUserId();
@@ -68,7 +68,7 @@ namespace IdentityDemo.Controllers
 
         // PUT api/<PostsController>/5
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Policy = "posts.update")]
         public async Task<IActionResult> Put(int id, [FromBody] Post post)
         {
             post.ModifiedByUserId = GetUserId();
@@ -80,6 +80,8 @@ namespace IdentityDemo.Controllers
 
         // DELETE api/<PostsController>/5
         [HttpDelete("{id}")]
+        // [Authorize(Roles = "Administrator")] // This works, but is too generic
+        [Authorize(Policy = "posts.delete")]
         public async Task Delete(int id)
         {
             await _posts.DeletePost(id);

@@ -73,6 +73,16 @@ namespace IdentityDemo
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("posts.create",
+                    policy => policy.RequireClaim("permissions", "create"));
+                options.AddPolicy("posts.update",
+                    policy => policy.RequireClaim("permissions", "update"));
+                options.AddPolicy("posts.delete",
+                    policy => policy.RequireClaim("permissions", "delete"));
+            });
+
             services.AddTransient<IPostManager, PostService>();
         }
 
