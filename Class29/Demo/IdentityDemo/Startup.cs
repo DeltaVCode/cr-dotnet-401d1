@@ -95,8 +95,11 @@ namespace IdentityDemo
                 endpoints.MapDefaultControllerRoute();
             });
 
-            var userManager = app.ApplicationServices.GetService<UserManager<BlogUser>>();
-            SeedUsersDatabase(userManager);
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetService<UserManager<BlogUser>>();
+                // SeedUsersDatabase(userManager);
+            }
         }
 
         private async void SeedUsersDatabase(UserManager<BlogUser> userManager)
