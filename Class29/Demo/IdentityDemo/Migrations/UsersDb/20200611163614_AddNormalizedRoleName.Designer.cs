@@ -4,14 +4,16 @@ using IdentityDemo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IdentityDemo.Migrations.UsersDb
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200611163614_AddNormalizedRoleName")]
+    partial class AddNormalizedRoleName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,36 +160,6 @@ namespace IdentityDemo.Migrations.UsersDb
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClaimType = "Permissions",
-                            ClaimValue = "delete",
-                            RoleId = "admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClaimType = "Permissions",
-                            ClaimValue = "create",
-                            RoleId = "admin"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClaimType = "Permissions",
-                            ClaimValue = "update",
-                            RoleId = "admin"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClaimType = "Permissions",
-                            ClaimValue = "update",
-                            RoleId = "moderator"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
