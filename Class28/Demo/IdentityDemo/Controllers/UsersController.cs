@@ -29,7 +29,7 @@ namespace IdentityDemo.Controller
         [HttpGet("Self")]
         public async Task<IActionResult> Self()
         {
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
+            if (User.Identity is ClaimsIdentity identity)
             {
                 var usernameClaim = identity.FindFirst("UserId");
                 var userId = usernameClaim.Value;
