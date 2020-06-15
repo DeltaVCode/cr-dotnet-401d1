@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,13 +46,24 @@ namespace IdentityDemo.Controller
                     return Unauthorized();
                 }
 
-                return Ok(new
+                var roles = /* if current user is admin, then */
+                    identity.Claims
+                        .Where(c => c.Type == identity.RoleClaimType)
+                        .Select(c => c.Value)
+                        .ToList();
+
+                // Or, go to the database (slower, but maybe more accurate)
+                // var roles = await userManager.GetRolesAsync(user);
+
+                return base.Ok(new
                 {
                     UserId = user.Id,
                     user.Email,
                     user.FirstName,
                     user.LastName,
                     user.BirthDate,
+
+                    Roles = roles,
                 });
             }
 
