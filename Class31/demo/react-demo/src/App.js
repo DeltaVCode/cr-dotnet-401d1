@@ -50,6 +50,7 @@ class Main extends React.Component {
   render() {
     // Re-rendering is automatic when state changes
     // console.log('Rendering!', this.state );
+    let passwordMessage = this.state.words.length > 10 ? 'Strong!' : 'Weak!';
 
     return (
       <div className="wrapper">
@@ -57,6 +58,7 @@ class Main extends React.Component {
         <h3>Words: {this.state.words}</h3>
         <input onChange={this.handleWord}/>
         <button onClick={this.handleClick}>Reverse</button>
+        <div>Password strength: {passwordMessage}</div>
       </div>
     )
   }
