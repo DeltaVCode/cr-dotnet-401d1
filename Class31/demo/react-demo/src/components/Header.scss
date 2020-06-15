@@ -1,0 +1,13 @@
+$niceBlue: cornflowerblue;
+
+header {
+  border: 10px solid $niceBlue;
+  padding: 5px;
+
+  // header h1 { ... }
+  h1 {
+    font-style: italic;
+  }
+
+  nav { color: $niceBlue; }
+}

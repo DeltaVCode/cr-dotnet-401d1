@@ -1,14 +1,5 @@
 import React from 'react';
-
-// Function Component
-function Header() {
-  return (
-    <header>
-      <h1>Welcome to React!</h1>
-      <nav>Links go here</nav>
-    </header>
-  )
-}
+import Header from './components/Header';
 
 // Another function component
 const Footer = () => (
@@ -59,6 +50,7 @@ class Main extends React.Component {
         <input onChange={this.handleWord}/>
         <button onClick={this.handleClick}>Reverse</button>
         <div>Password strength: {passwordMessage}</div>
+        <nav>Not blue!</nav>
       </div>
     )
   }
