@@ -1,3 +1,6 @@
 [submodule "Class10/Demo/DSA"]
 	path = Class10/Demo/DSA
 	url = https://github.com/dahlbyk-demo/cr-dotnet-401d1-dsa.git
+[submodule "Class32/demo/react-deployment"]
+	path = Class32/demo/react-deployment
+	url = https://github.com/dahlbyk-demo/401d1-react-deployment
