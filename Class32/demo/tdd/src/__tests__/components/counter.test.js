@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import renderer from 'react-test-renderer';
 
 import Counter from '../../components/counter';
 
@@ -54,5 +55,13 @@ describe('<Counter />', () => {
     app.find('button').simulate('click');
 
     expect(app.find('h1').exists()).toBe(true);
+  })
+
+  // Snapshot test!
+  it('renders correctly', () => {
+    let tree = renderer.create(<Counter />).toJSON();
+    //console.log(tree);
+
+    expect(tree).toMatchSnapshot();
   })
 })
