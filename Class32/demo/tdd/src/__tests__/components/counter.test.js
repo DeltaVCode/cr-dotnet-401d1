@@ -12,7 +12,7 @@ describe('<Counter />', () => {
     let app = shallow(<Counter />);
 
     // Assert
-    expect(app.find('span.count').text()).toBe('0');
+    expect(app.find('span.count').text()).toBe('Clicks: 0');
   });
 
   it('can increment counter', () => {
@@ -24,7 +24,7 @@ describe('<Counter />', () => {
     button.simulate('click');
 
     // Assert
-    expect(app.find('span.count').text()).toBe('1');
+    expect(app.find('span.count').text()).toBe('Clicks: 1');
   });
 
   it('does not have a Header before click', () => {

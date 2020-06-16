@@ -5,6 +5,7 @@ exports[`<Counter /> renders correctly 1`] = `
   <span
     className="count"
   >
+    Clicks: 
     0
   </span>
   <button
