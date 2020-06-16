@@ -20,7 +20,7 @@ export default class Counter extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        {this.state.count > 0 && <Header />}
         <span className="count">{this.state.count}</span>
         <button onClick={this.increment}>+1</button>
       </div>
