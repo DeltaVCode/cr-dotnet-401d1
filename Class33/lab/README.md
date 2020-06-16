@@ -1,20 +1,27 @@
 # LAB - Props and State
 
-Put your knowledge of state, component hierarchy, and `fetch()` together to create an API testing application, similar to Postman, called "RESTy"
+**RESTy Phase 3:** Connect RESTy with APIs, running live requests
 
 ## Before you begin
 
 Refer to *Getting Started*  in the [lab submission instructions](../../../reference/submission-instructions/labs/README.md) for complete setup, configuration, deployment, and submission instructions.
 
-## Getting Started
+> Continue working in your 'resty' repository, in a branch called 'props-and-state'
 
-Open [Code Sandbox](http://codesandbox.io) and Create a new application titled with your course code and this lab number (i.e. js-401n15-class-10)
+## Business Requirements
 
-You will be submitting the URL to this working sandbox as part of your assignment.
+Refer to the [RESTy System Overview](../../apps-and-libraries/resty/README.md) for a complete review of the application, including Business and Technical requirements along with the development roadmap.
 
-## Requirements
+## Phase 3 Requirements
 
-Using the tools that we've demonstrated in the core demo, start to build out the RESTy app, which is a simple clone of Postman.
+In phase 3, we will be connecting RESTy to live APIs, fetching and displaying remote data. Our primary focus will be to service *GET* requests
+
+The following user stories detail the major functionality for this phase of the project.
+
+- As a user, I want to enter the URL to an API and issue a GET request so that I can retrieve it's data
+- As a user, I want to see the results returned from an API request in my browser in a readable format
+
+Application Flow:
 
 - User enters an API URL
 - Chooses a REST Method
@@ -27,7 +34,9 @@ Using the tools that we've demonstrated in the core demo, start to build out the
 
 <img src="resty.png" width="600" >
 
-### Implementation Details
+## Technical Requirements / Note
+
+Suggested Component Hierarchy and Application Architecture:
 
 - `index.js` - Entry Point
 - `app.js` - Container
@@ -50,10 +59,16 @@ Using the tools that we've demonstrated in the core demo, start to build out the
 
 Write mount/enzyme tests for end to end testing
 
-## Stretch Goal
+## Stretch Goals
 
-- Add a "loading" indicator or icon in the Headers/Results area when the user submits the form
-- Replace it with the results when they come in
+Add support for all REST methods
+
+- **GET** a single record by ID
+- **DELETE** a single record by ID
+- **PUT** a single record by ID
+  - Requires the addition of a text area where you can type in the JSON body for the update
+- **POST** to create a new record
+  - Requires the addition of a text area where you can type in the JSON body for the new record
 
 ## Assignment Submission Instructions
 
