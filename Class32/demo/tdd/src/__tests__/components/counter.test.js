@@ -13,6 +13,7 @@ describe('<Counter />', () => {
 
     // Assert
     expect(app.find('span.count').text()).toBe('Clicks: 0');
+    expect(app.state('count')).toBe(0);
   });
 
   it('can increment counter', () => {
@@ -25,6 +26,7 @@ describe('<Counter />', () => {
 
     // Assert
     expect(app.find('span.count').text()).toBe('Clicks: 1');
+    expect(app.state('count')).toBe(1);
   });
 
   it('does not have a Header before click', () => {
