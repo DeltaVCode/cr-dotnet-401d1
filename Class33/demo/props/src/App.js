@@ -1,11 +1,22 @@
 import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <NumberHeader luckyNumber={42} />
-    </div>
-  );
+class App extends React.Component {
+  constructor(props)
+  {
+    super(props);
+
+    this.state = {
+      number: 7,
+    }
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <NumberHeader luckyNumber={this.state.number} />
+      </div>
+    );
+  }
 }
 
 function NumberHeader(props) {
