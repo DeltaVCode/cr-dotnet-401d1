@@ -8,6 +8,15 @@ export default function UserList (props) {
   }
 
   return (
-    <h2>User Count: {props.users.length}</h2>
+    <>
+      <h2>User Count: {props.users.length}</h2>
+      <ul>
+        {props.users.map((user, index) => (
+          <li key={index}>
+            <a href={`#${user.id}`}>{user.username}</a> says <q>{user.bs}</q>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
