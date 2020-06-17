@@ -4,6 +4,9 @@ const UserForm = props => {
   async function loadStuff(e) { 
     e.preventDefault();
 
+    // Turn loading on
+    props.toggleLoading();
+
     let response = await fetch('https://jsonplaceholder.typicode.com/users');
     let data = await response.json();
 
@@ -15,6 +18,9 @@ const UserForm = props => {
       bs: u.company.bs,
     }));
     props.onReceiveUsers(users);
+
+    // Done, turn loading off
+    props.toggleLoading();
   }
 
   return (
