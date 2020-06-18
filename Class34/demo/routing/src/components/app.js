@@ -1,19 +1,8 @@
 import React from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
+import Nav from './nav';
 import Numbers from './numbers';
 import Users from './users';
-
-function Nav() {
-  return (
-    <nav>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/users">Users</Link></li>
-        <li><Link to="/numbers">Numbers</Link></li>
-      </ul>
-    </nav>
-  );
-}
 
 function App() {
   return (
