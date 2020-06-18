@@ -2,7 +2,7 @@ import React from 'react';
 import UserForm from './user-form';
 import UserList from './user-list';
 
-class UserApp extends React.Component{
+class Users extends React.Component{
   constructor(props){
     super(props);
 
@@ -41,4 +41,4 @@ class UserApp extends React.Component{
   }
 }
 
-export default UserApp;
+export default Users;
