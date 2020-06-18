@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Nav from './nav';
+import Home from './home';
 import Numbers from './numbers';
 import Users from './users';
 
@@ -13,8 +14,7 @@ function App() {
       </header>
       <Switch>
         <Route exact path="/">
-          <h2>Welcome</h2>
-          <p>You might be interested in our <Link to="/users">Users</Link></p>
+          <Home />
         </Route>
         <Route path="/users">
           <Users />
