@@ -16,6 +16,10 @@ function App() {
         <Route exact path="/">
           <Home />
         </Route>
+
+        {/* Use component so Home has access to history for navigation */}
+        <Route exact path="/contact" component={Home} />
+
         <Route path="/users">
           <Users />
         </Route>
