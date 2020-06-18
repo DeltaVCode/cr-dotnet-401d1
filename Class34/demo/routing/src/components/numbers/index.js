@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { If, Unless } from '../if';
+
 class Numbers extends React.Component {
   constructor(props)
   {
@@ -29,6 +31,16 @@ class Numbers extends React.Component {
           saveNumber={this.updateNumber}
           saveAll={this.logAll}
           />
+
+        <If condition={this.state.number % 2 === 1}>
+          <h2>Number is odd!</h2>
+        </If>
+        <Unless condition={this.state.number === 7}>
+          <pre>You're unlucky!</pre>
+        </Unless>
+
+        {/* Often you'll just see conditions like this */}
+        {+this.state.number === 1 && <p>Loneliest number</p>}
       </div>
     );
   }
