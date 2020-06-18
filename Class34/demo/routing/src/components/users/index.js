@@ -6,9 +6,11 @@ class Users extends React.Component{
   constructor(props){
     super(props);
 
+    let usersFromStorage = JSON.parse(window.localStorage.users || '[]');
+
     this.state = {
       usersLoading: false,
-      users: [],
+      users: usersFromStorage,
     };
   }
 
@@ -27,6 +29,8 @@ class Users extends React.Component{
   setUsers = users => {
     console.log(users);
     this.setState({ users });
+
+    window.localStorage.users = JSON.stringify(users);
   }
 
   render() {
