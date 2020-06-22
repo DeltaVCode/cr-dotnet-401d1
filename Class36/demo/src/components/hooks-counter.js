@@ -15,29 +15,6 @@ export default function Counter(props) {
 
   let [invites, setInvites] = useState([]);
 
-  const saveInvitation = e => {
-    e.preventDefault();
-
-    let newInvites = [...invites, { name, accepted: false }];
-    setInvites(newInvites);
-    e.target.reset();
-  };
-
-  const acceptInvitation = indexToUpdate => {
-    let updatedInvites = invites.map((invite, i) => {
-      // could match on id instead
-      if (i !== indexToUpdate) {
-        // Return existing invite unchanged
-        return invite;
-      }
-
-      // This is the invite to update, let's make a new one
-      return { ...invite, accepted: true };
-    });
-    console.log(updatedInvites);
-    setInvites(updatedInvites);
-  };
-
   // Only run once (no dependencies to trigger re-run)
   useEffect(() => {
     console.log('componentDidMount-ish');
@@ -77,6 +54,29 @@ export default function Counter(props) {
 
     // like setState(count => count + 1)
     setCount(count + 1);
+  };
+
+  const saveInvitation = e => {
+    e.preventDefault();
+
+    let newInvites = [...invites, { name, accepted: false }];
+    setInvites(newInvites);
+    e.target.reset();
+  };
+
+  const acceptInvitation = indexToUpdate => {
+    let updatedInvites = invites.map((invite, i) => {
+      // could match on id instead
+      if (i !== indexToUpdate) {
+        // Return existing invite unchanged
+        return invite;
+      }
+
+      // This is the invite to update, let's make a new one
+      return { ...invite, accepted: true };
+    });
+    console.log(updatedInvites);
+    setInvites(updatedInvites);
   };
 
   return (
