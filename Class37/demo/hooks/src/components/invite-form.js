@@ -1,50 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import useForm from '../hooks/form';
 
 export default function InviteForm(props) {
-  // this.state = { name: '' };
-  let [name, setName] = useState('');
-  let [dinnerPref, setDinnerPref] = useState('');
-  let [guestDinnerPref, setGuestDinnerPref] = useState('');
-  // { value: 'Keith', setter: function }
-  // console.log('Rendering HooksCounter', { count, name })
+  let [handleSubmit, handleChange, values] =
+    useForm(saveFromHook);
 
-  // Only run when name changes
+  function saveFromHook(formValues) {
+    props.createNewInvitation({
+      ...formValues,
+      accepted: false,
+    });
+  }
+
+  let name = values.name;
   useEffect(() => {
-    if (name.length > 2)
-      console.log('Name changed to ' + name);
+    document.title = `New Invite: ${name}`
   }, [name]);
 
-  const updateName = e => setName(e.target.value);
-  const updateDinnerPref = e => setDinnerPref(e.target.value);
-  const updateGuestDinnerPref = e => setGuestDinnerPref(e.target.value);
-
-  const saveInvitation = e => {
-    e.preventDefault();
-
-    const newInvite = {
-       name,
-       dinnerPref,
-       guestDinnerPref,
-       accepted: false
-       };
-
-    props.createNewInvitation(newInvite);
-
-    e.target.reset();
-  };
-
   return (
-    <form onSubmit={saveInvitation}>
-      <label>Name: <input onChange={updateName} /></label>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name: 
+        <input name='name' onChange={handleChange} /></label>
       <label>Dinner Pref:
-        <select onChange={updateDinnerPref}>
+        <select name='dinnerPref' onChange={handleChange}>
           <option>Chicken</option>
           <option>Beef</option>
           <option>Veggie</option>
         </select>
       </label>
       <label>Guest Dinner Pref:
-        <select onChange={updateGuestDinnerPref}>
+        <select name='guestDinnerPref' onChange={handleChange}>
           <option></option>
           <option>Chicken</option>
           <option>Beef</option>
