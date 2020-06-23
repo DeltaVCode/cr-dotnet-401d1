@@ -58,6 +58,12 @@ namespace TodoApi
                 c.RoutePrefix = "";
             });
 
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyHeader();
+            });
+
             app.UseRouting();
 
             app.UseAuthorization();
