@@ -2,7 +2,7 @@ import React from 'react';
 import useFetch from '../hooks/fetch';
 
 export default function TodoList(props) {
-  const [isLoading, data] = useFetch('https://localhost:44331/api/v1/Todos');
+  const [isLoading, data] = useFetch('https://deltav-todo.azurewebsites.net/api/v1/Todos');
 
   if (isLoading) {
     return (<h2>Loading...</h2>);
