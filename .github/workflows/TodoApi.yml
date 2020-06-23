@@ -30,3 +30,22 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Publish
+      run: dotnet publish --configuration Release --no-build --output ./output
+
+    - name: Deploy to Production
+      if: github.event_name == 'push'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: deltav-todo
+        package: ./TodoApi/output
+        publish-profile: ${{ secrets.AZURE_PUBLISH_401D1_TODO }}
+
+    - name: Deploy to Alpha
+      if: github.event_name == 'pull_request'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: deltav-todo
+        package: ./TodoApi/output
+        publish-profile: ${{ secrets.AZURE_PUBLISH_401D1_TODO_ALPHA }}
+        slot-name: alpha
