@@ -10,6 +10,8 @@ export default function InviteForm(props) {
       ...formValues,
       accepted: false,
     });
+
+    // TODO: use fetch to POST
   }
 
   let name = values.name;

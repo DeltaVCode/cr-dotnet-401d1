@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom';
 import ClassCounter from './components/class-counter';
 import HooksCounter from './components/hooks-counter';
+import TodoList from './components/todo-list';
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
           </Route>
           <Route path="/hooks">
             <HooksCounter initialCount={7} />
+          </Route>
+          <Route path="/todo">
+            <TodoList />
           </Route>
         </Switch>
       </main>
