@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InviteForm from './invite-form';
 
 export default function Counter(props) {
   // Destructuring allows specifying default value
@@ -7,11 +8,6 @@ export default function Counter(props) {
 
   // let count = initialCount;
   let [count, setCount] = useState(initialCount);
-
-  // this.state = { name: '' };
-  let [name, setName] = useState('');
-  // { value: 'Keith', setter: function }
-  // console.log('Rendering HooksCounter', { count, name })
 
   let [invites, setInvites] = useState([]);
 
@@ -31,12 +27,6 @@ export default function Counter(props) {
     console.log('componentDidUpdate-ish');
   });
 
-  // Only run when name changes
-  useEffect(() => {
-    if (name.length > 2)
-      console.log('Name changed to ' + name);
-  }, [name]);
-
   // Only run when count changes
   useEffect(() => {
     console.log('Count changed')
@@ -44,8 +34,6 @@ export default function Counter(props) {
       document.title = 'Count: ' + count;
     }, 500)
   }, [count]);
-
-  const updateName = e => setName(e.target.value);
 
   const increment = () => {
     // Doesn't work
@@ -56,13 +44,10 @@ export default function Counter(props) {
     setCount(count + 1);
   };
 
-  const saveInvitation = e => {
-    e.preventDefault();
-
-    let newInvites = [...invites, { name, accepted: false }];
+  const saveInvite = newInvite => {
+    let newInvites = [...invites, newInvite];
     setInvites(newInvites);
-    e.target.reset();
-  };
+  }
 
   const acceptInvitation = indexToUpdate => {
     let updatedInvites = invites.map((invite, i) => {
@@ -85,10 +70,7 @@ export default function Counter(props) {
       <button onClick={increment}>
         Update Counter
       </button>
-      <form onSubmit={saveInvitation}>
-        <input onChange={updateName} />
-        <div>Name: {name}</div>
-      </form>
+      <InviteForm createNewInvitation={saveInvite} />
       <ul>
         {invites.map((invite, index) => (
           <li key={index}>
