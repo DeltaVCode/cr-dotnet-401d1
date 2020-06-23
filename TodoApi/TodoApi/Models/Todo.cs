@@ -12,5 +12,7 @@ namespace TodoApi.Models
         public int? Difficulty { get; set; }
 
         public string AssignedTo { get; set; }
+
+        public bool Completed { get; set; }
     }
 }
