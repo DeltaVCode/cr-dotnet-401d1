@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using TodoApi.Data;
 
 namespace TodoApi
 {
@@ -13,7 +11,11 @@ namespace TodoApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            UpdateDatabase(host.Services);
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,5 +24,13 @@ namespace TodoApi
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        // https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/
+        private static void UpdateDatabase(IServiceProvider services)
+        {
+            using var serviceScope = services.CreateScope();
+            using var db = serviceScope.ServiceProvider.GetService<TodoDbContext>();
+            db.Database.Migrate();
+        }
     }
 }
