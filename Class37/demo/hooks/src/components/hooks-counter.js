@@ -75,6 +75,8 @@ export default function Counter(props) {
         {invites.map((invite, index) => (
           <li key={index}>
             {invite.name} (Accepted: {invite.accepted.toString()})
+            <p>Dinner: {invite.dinnerPref}</p>
+            {invite.guestDinnerPref && <p>Guest: {invite.guestDinnerPref}</p>}
             <button onClick={() => acceptInvitation(index)}>Accept</button>
           </li>
         ))}
