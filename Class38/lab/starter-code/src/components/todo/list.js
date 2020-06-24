@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TodoList = (props) => {
 
@@ -14,9 +15,9 @@ const TodoList = (props) => {
           <span onClick={() => props.handleCompleted(item.id)}>
             {item.title}
           </span>
-          <button onClick={() => props.handleDetails(item.id)}>
+          <Link to={`/todo/${item.id}`}>
               Details
-          </button>
+          </Link>
           <button onClick={() => props.handleDelete(item.id)}>
               Delete
           </button>

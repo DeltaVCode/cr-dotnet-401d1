@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Route, useHistory } from 'react-router-dom';
 import useFetch from '../../hooks/fetch.js';
-import { When } from '../if';
 import TodoForm from './form.js';
 import TodoList from './list.js';
 import TodoItem from './item.js';
@@ -11,10 +11,7 @@ import './todo.scss';
 const todoAPI = 'https://deltav-todo.azurewebsites.net/api/v1/todos';
 
 const ToDo = () => {
-
   const [todoList, setToDoList] = useState([]);
-  const [showDetails, setShowDetails] = useState(false);
-  const [showItem, setShowItem] = useState({});
 
   // request() is a function from the hook that takes a url and options as a parameter object
   // response, error are data that the hook sets as state (letting us re-render here) when it's done fetchign data
@@ -57,12 +54,6 @@ const ToDo = () => {
       }
     }
     request(updateRequest);
-  };
-
-  const _toggleDetails = id => {
-    setShowDetails(!showDetails);
-    let item = todoList.filter(item => item.id === id)[0];
-    setShowItem(item);
   };
 
   const _getAll = () => {
@@ -113,14 +104,15 @@ const ToDo = () => {
             list={todoList}
             handleCompleted={_toggleCompleted}
             handleDelete={_deleteItem}
-            handleDetails={_toggleDetails}
           />
         </div>
       </section>
 
-      <When condition={showDetails}>
-        <TodoItem handleDetails={_toggleDetails} item={showItem} />
-      </When>
+      <Route
+        path='/todo/:id'
+        render={({ match }) => (
+          <TodoItem item={todoList.find(item => item.id == match.params.id)} />
+        )} />
     </>
   );
 };
