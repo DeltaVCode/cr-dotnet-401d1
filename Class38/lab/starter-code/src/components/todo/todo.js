@@ -57,7 +57,7 @@ const ToDo = () => {
     request(updateRequest);
   };
 
-  const _getAll = () => {
+  const _getAll = React.useCallback(() => {
     const req = {
       url: todoAPI,
       options: {
@@ -65,14 +65,14 @@ const ToDo = () => {
       }
     }
     request(req);
-  }
+  }, [request]);
 
   // The function to re-fetch data so the display is current
   // Called on intial load and afer every write operation
   // On mount ... get the list
   useEffect(() => {
     _getAll();
-  }, []);
+  }, [_getAll]);
 
   //  Set the full state if it's in the response or re-fetch anytime the response is updated
   useEffect(() => {
@@ -84,7 +84,7 @@ const ToDo = () => {
     else {
       _getAll();
     }
-  }, [response]);
+  }, [response, _getAll]);
 
   return (
     <>
