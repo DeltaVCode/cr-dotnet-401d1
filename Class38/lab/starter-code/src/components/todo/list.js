@@ -8,16 +8,16 @@ const TodoList = (props) => {
     <ul>
       { list.map(item => (
         <li
-          className={`complete-${item.complete.toString()}`}
-          key={item._id}
+          className={`completed-${item.completed.toString()}`}
+          key={item.id}
         >
-          <span onClick={() => props.handleComplete(item._id)}>
-            {item.text}
+          <span onClick={() => props.handleCompleted(item.id)}>
+            {item.title}
           </span>
-          <button onClick={() => props.handleDetails(item._id)}>
+          <button onClick={() => props.handleDetails(item.id)}>
               Details
           </button>
-          <button onClick={() => props.handleDelete(item._id)}>
+          <button onClick={() => props.handleDelete(item.id)}>
               Delete
           </button>
         </li>

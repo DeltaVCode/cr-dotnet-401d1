@@ -17,7 +17,7 @@ const useFetch = () => {
       try {
         requestObject.options.headers = { 'Content-Type': 'application/json' };
         const res = await fetch(requestObject.url, requestObject.options);
-        const json = await res.json();
+        const json = res.status === 200 && await res.json();
         setResponse(json);
         setIsLoading(false)
       } catch (error) {

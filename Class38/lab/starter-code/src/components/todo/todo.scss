@@ -55,7 +55,7 @@ body, html {
             font-size: .75em;
             margin: .75em .5em;
 
-            &.complete-true {
+            &.completed-true {
               span {
                 background: pink;
                 text-decoration:line-through;

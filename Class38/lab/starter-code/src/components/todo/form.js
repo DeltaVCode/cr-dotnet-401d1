@@ -12,7 +12,7 @@ const TodoForm = props => {
         <label>
           <span>To Do Item</span>
           <input
-            name="text"
+            name="title"
             placeholder="Add To Do List Item"
             onChange={handleChange}
           />
@@ -23,7 +23,7 @@ const TodoForm = props => {
         </label>
         <label>
           <span>Assigned To</span>
-          <input type="text" name="assignee" placeholder="Assigned To" onChange={handleChange} />
+          <input type="title" name="assignedTo" placeholder="Assigned To" onChange={handleChange} />
         </label>
         <button>Add Item</button>
       </form>

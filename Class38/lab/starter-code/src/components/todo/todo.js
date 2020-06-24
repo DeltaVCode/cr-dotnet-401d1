@@ -8,7 +8,7 @@ import TodoItem from './item.js';
 import './todo.scss';
 
 // Should be in .env as REACT_APP_API_SERVER instead of hard coded
-const todoAPI = 'https://localhost:44331/api/v1/todos';
+const todoAPI = 'https://deltav-todo.azurewebsites.net/api/v1/todos';
 
 const ToDo = () => {
 
@@ -46,9 +46,9 @@ const ToDo = () => {
     request(deleteRequest);
   };
 
-  const _toggleComplete = id => {
-    let item = todoList.filter(i => i._id === id)[0] || {};
-    item.complete = !item.complete;
+  const _toggleCompleted = id => {
+    let item = todoList.filter(i => i.id === id)[0] || {};
+    item.completed = !item.completed;
     const updateRequest = {
       url: `${todoAPI}/${id}`,
       options: {
@@ -61,7 +61,7 @@ const ToDo = () => {
 
   const _toggleDetails = id => {
     setShowDetails(!showDetails);
-    let item = todoList.filter(item => item._id === id)[0];
+    let item = todoList.filter(item => item.id === id)[0];
     setShowItem(item);
   };
 
@@ -85,8 +85,8 @@ const ToDo = () => {
   //  Set the full state if it's in the response or re-fetch anytime the response is updated
   useEffect(() => {
     // Anytime we get a list, update our sate
-    if (response.count >= 0) {
-      setToDoList(response.results);
+    if (response.length >= 0) {
+      setToDoList(response);
     }
     // Otherwise, re-fetch
     else {
@@ -98,7 +98,7 @@ const ToDo = () => {
     <>
       <header>
         <h2>
-          There are {todoList.filter(item => !item.complete).length} Items To Complete
+          There are {todoList.filter(item => !item.completed).length} Items To Complete
         </h2>
       </header>
 
@@ -111,7 +111,7 @@ const ToDo = () => {
         <div>
           <TodoList
             list={todoList}
-            handleComplete={_toggleComplete}
+            handleCompleted={_toggleCompleted}
             handleDelete={_deleteItem}
             handleDetails={_toggleDetails}
           />
