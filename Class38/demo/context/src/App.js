@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import Header from './components/header';
 import ClassCounter from './components/class-counter';
 import HooksCounter from './components/hooks-counter';
 import TodoList from './components/todo-list';
@@ -7,12 +8,7 @@ import TodoList from './components/todo-list';
 function App() {
   return (
     <div>
-      <nav>
-        <ul>
-          <li><NavLink to="/class">Class Counter</NavLink></li>
-          <li><NavLink to="/hooks">Hooks Counter</NavLink></li>
-        </ul>
-      </nav>
+      <Header />
       <main>
         <Switch>
           <Route path="/class">
