@@ -18,6 +18,8 @@ export default function Header() {
         <ul>
           <li><NavLink to="/class">Class Counter</NavLink></li>
           <li><NavLink to="/hooks">Hooks Counter</NavLink></li>
+          <li><NavLink to="/context">Context Demo</NavLink></li>
+          <li><NavLink to="/settings">Edit Settings</NavLink></li>
           <li><a href={`https://twitter.com/${twitter}`}>Twitter</a></li>
         </ul>
       </nav>
