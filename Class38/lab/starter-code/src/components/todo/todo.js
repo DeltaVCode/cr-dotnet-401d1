@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import useFetch from '../../hooks/fetch.js';
 import TodoForm from './form.js';
 import TodoList from './list.js';
@@ -16,6 +16,7 @@ const ToDo = () => {
   // request() is a function from the hook that takes a url and options as a parameter object
   // response, error are data that the hook sets as state (letting us re-render here) when it's done fetchign data
   // isLoading is a flag set by the hook to let you change display if we're loading data
+  // eslint-disable-next-line no-unused-vars
   const { request, response, error, isLoading } = useFetch();
 
   // Notice how all of the event handlers set a request object and call request() with it?
@@ -111,7 +112,7 @@ const ToDo = () => {
       <Route
         path='/todo/:id'
         render={({ match }) => (
-          <TodoItem item={todoList.find(item => item.id == match.params.id)} />
+          <TodoItem item={todoList.find(item => item.id === Number(match.params.id))} />
         )} />
     </>
   );

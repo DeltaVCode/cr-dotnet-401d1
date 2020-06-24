@@ -3,7 +3,14 @@ import useForm from '../../hooks/form.js';
 
 const TodoForm = props => {
 
-  const { handleChange, handleSubmit } = useForm(props.handleSubmit);
+  const { handleChange, handleSubmit } = useForm(onSubmit);
+
+  function onSubmit(formValues) {
+    props.handleSubmit({
+      ...formValues,
+      difficulty: formValues.difficulty ? parseInt(formValues.difficulty) : 5,
+    });
+  }
 
   return (
     <>
