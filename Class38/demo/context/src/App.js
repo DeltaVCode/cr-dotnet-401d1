@@ -4,10 +4,13 @@ import Header from './components/header';
 import ClassCounter from './components/class-counter';
 import HooksCounter from './components/hooks-counter';
 import TodoList from './components/todo-list';
+import useTheme from './contexts/theme';
 
 function App() {
+  const { mode } = useTheme();
+
   return (
-    <div>
+    <div className={mode}>
       <Header />
       <main>
         <Switch>

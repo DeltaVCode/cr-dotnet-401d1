@@ -8,7 +8,16 @@ export class ThemeProvider extends React.Component {
 
     this.state = {
       mode: props.defaultMode || 'light',
+
+      // weird, but add functions to our context state!
+      toggleMode: this.toggleMode,
     };
+  }
+
+  toggleMode = () =>{
+    this.setState(state => ({
+      mode: state.mode === 'light' ? 'dark' : 'light'
+    }));
   }
 
   render() {

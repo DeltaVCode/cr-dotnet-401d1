@@ -10,6 +10,7 @@ export default function Header() {
   
   return(
     <header className={theme.mode}>
+      <button onClick={() => theme.toggleMode()}>Toggle Theme</button>
       <nav>
         <ul>
           <li><NavLink to="/class">Class Counter</NavLink></li>

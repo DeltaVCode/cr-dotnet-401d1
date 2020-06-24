@@ -9,7 +9,7 @@ import { ThemeProvider } from './contexts/theme';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
+      <ThemeProvider defaultMode='dark'>
         <App />
       </ThemeProvider>
     </BrowserRouter>

@@ -9,3 +9,12 @@ header.dark {
   background: black;
   color: white;
 }
+
+/* App Styling should be in a separate file */
+.dark main {
+  border: 5px purple solid;
+}
+
+.light main {
+  border: 2px green solid;
+}
