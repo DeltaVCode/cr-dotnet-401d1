@@ -62,6 +62,7 @@ namespace TodoApi
             {
                 policy.AllowAnyOrigin();
                 policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
             });
 
             app.UseRouting();
