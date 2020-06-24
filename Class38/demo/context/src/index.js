@@ -5,12 +5,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { ThemeProvider } from './contexts/theme';
+import { SettingsProvider } from './contexts/settings';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider defaultMode='dark'>
-        <App />
+        <SettingsProvider>
+          <App />
+        </SettingsProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
