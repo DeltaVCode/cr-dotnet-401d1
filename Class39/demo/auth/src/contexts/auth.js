@@ -17,6 +17,7 @@ export class AuthProvider extends React.Component {
 
       // Functions!
       login: this.login,
+      logout: this.logout,
     };
   }
 
@@ -37,6 +38,10 @@ export class AuthProvider extends React.Component {
     }
 
     // TODO: maybe set userError state?
+    this.logout();
+  }
+
+  logout = () => {
     this.setState({ user: null });
   }
 

@@ -16,6 +16,12 @@ export default class Login extends React.Component {
     this.context.login(username.value, password.value);
   }
 
+  logoutSubmit = e => {
+    e.preventDefault();
+
+    this.context.logout();
+  }
+
   render() {
     console.log('auth context', this.context);
 
@@ -25,6 +31,9 @@ export default class Login extends React.Component {
       return (
         <h1>
           Welcome back, {user.username}!
+          <form onSubmit={this.logoutSubmit}>
+            <button>Log Out</button>
+          </form>
         </h1>
         );
     }
