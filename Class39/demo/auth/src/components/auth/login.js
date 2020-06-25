@@ -12,18 +12,28 @@ export default class Login extends React.Component {
 
     // Pull values out for *uncontrolled* inputs
     const { username, password } = e.target.elements;
-    
-    console.log(username.value, password.value);
+
+    this.context.login(username.value, password.value);
   }
 
   render() {
     console.log('auth context', this.context);
 
+    const { user } = this.context;
+
+    if (user) {
+      return (
+        <h1>
+          Welcome back, {user.username}!
+        </h1>
+        );
+    }
+
     return (
       <form onSubmit={this.handleSubmit}>
         <input placeholder="Username" name="username" />
         <input placeholder="Password" type="password" name="password" />
-        <button>Login</button>
+        <button>Log In</button>
       </form>
     )
   }
