@@ -8,7 +8,7 @@ import TodoItem from './item.js';
 import './todo.scss';
 
 // Should be in .env as REACT_APP_API_SERVER instead of hard coded
-const todoAPI = 'https://localhost:44331/api/v1/todos';
+const todoAPI = 'https://deltav-todo-alpha.azurewebsites.net/api/v1/Todos';
 
 const ToDo = () => {
   const [todoList, setToDoList] = useState([]);

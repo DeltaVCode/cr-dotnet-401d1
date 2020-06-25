@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-const usersAPI = 'https://localhost:44331/api/v1/Users';
+const usersAPI = 'https://deltav-todo-alpha.azurewebsites.net/api/v1/Users';
 
 export const AuthContext = React.createContext();
 
