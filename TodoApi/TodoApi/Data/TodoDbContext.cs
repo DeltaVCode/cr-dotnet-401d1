@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 
 namespace TodoApi.Data
 {
-    public class TodoDbContext : DbContext
+    public class TodoDbContext : IdentityDbContext<ApplicationUser>
     {
         public TodoDbContext([NotNullAttribute] DbContextOptions options) : base(options)
         {
