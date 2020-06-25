@@ -18,7 +18,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(RegisterData data)
+        public async Task<ActionResult<UserWithToken>> Register(RegisterData data)
         {
             var user = await userService.Register(data, ModelState);
             if (user == null)
@@ -31,7 +31,7 @@ namespace TodoApi.Controllers
 
         [HttpPost("Login")]
         [AllowAnonymous]
-        public async Task<ActionResult<User>> Login(LoginData data)
+        public async Task<ActionResult<UserWithToken>> Login(LoginData data)
         {
             var user = await userService.Authenticate(data.Username, data.Password);
             if (user == null)

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -10,20 +11,22 @@ namespace TodoApi.Services
     public class IdentityUserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly JwtTokenService tokenService;
 
-        public IdentityUserService(UserManager<ApplicationUser> userManager)
+        public IdentityUserService(UserManager<ApplicationUser> userManager, JwtTokenService tokenService)
         {
             this.userManager = userManager;
+            this.tokenService = tokenService;
         }
 
-        public async Task<User> Authenticate(string username, string password)
+        public async Task<UserWithToken> Authenticate(string username, string password)
         {
             var user = await userManager.FindByNameAsync(username);
 
             if (!await userManager.CheckPasswordAsync(user, password))
                 return null;
 
-            return user;
+            return await GetUserWithToken(user);
         }
 
         public async Task<User> GetUser(ClaimsPrincipal user)
@@ -31,7 +34,7 @@ namespace TodoApi.Services
             return await userManager.GetUserAsync(user);
         }
 
-        public async Task<User> Register(RegisterData data, ModelStateDictionary modelState)
+        public async Task<UserWithToken> Register(RegisterData data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser
             {
@@ -44,7 +47,7 @@ namespace TodoApi.Services
             if (result.Succeeded)
             {
                 await userManager.AddToRolesAsync(user, data.Roles);
-                return user;
+                return await GetUserWithToken(user);
             }
 
             foreach (var error in result.Errors)
@@ -58,6 +61,16 @@ namespace TodoApi.Services
             }
 
             return null;
+        }
+
+        private async Task<UserWithToken> GetUserWithToken(ApplicationUser user)
+        {
+            return new UserWithToken
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                Token = await tokenService.GetToken(user, TimeSpan.FromMinutes(30))
+            };
         }
     }
 }
