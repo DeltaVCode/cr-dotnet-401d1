@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const TodoList = (props) => {
+import Auth from '../auth';
 
+const TodoList = (props) => {
   const list = props.list || [];
 
   return (
@@ -18,9 +19,14 @@ const TodoList = (props) => {
           <Link to={`/todo/${item.id}`}>
               Details
           </Link>
-          <button onClick={() => props.handleDelete(item.id)}>
-              Delete
-          </button>
+          <Auth permission='delete'>
+            <button onClick={() => props.handleDelete(item.id)}>
+                Delete
+            </button>
+          </Auth>
+          <Auth not permission='delete'>
+            You CAN'T Delete!
+          </Auth>
         </li>
       ))}
     </ul>
