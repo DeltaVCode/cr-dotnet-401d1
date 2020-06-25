@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Data;
@@ -21,6 +22,7 @@ namespace TodoApi.Controllers
 
         // GET: api/Todos
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Todo>>> GetTodo()
         {
             return await _context.Todo.ToListAsync();
@@ -28,6 +30,7 @@ namespace TodoApi.Controllers
 
         // GET: api/Todos/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Todo>> GetTodo(long id)
         {
             var todo = await _context.Todo.FindAsync(id);
@@ -44,6 +47,7 @@ namespace TodoApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Policy = "update")]
         public async Task<IActionResult> PutTodo(long id, Todo todo)
         {
             if (id != todo.Id)
@@ -76,6 +80,7 @@ namespace TodoApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Policy = "create")]
         public async Task<ActionResult<Todo>> PostTodo(Todo todo)
         {
             _context.Todo.Add(todo);
@@ -86,6 +91,7 @@ namespace TodoApi.Controllers
 
         // DELETE: api/Todos/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "delete")]
         public async Task<ActionResult<Todo>> DeleteTodo(long id)
         {
             var todo = await _context.Todo.FindAsync(id);
