@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,10 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter());
+            });
 
             services.AddDbContext<TodoDbContext>(options =>
             {
@@ -59,6 +63,16 @@ namespace TodoApi
                     options.TokenValidationParameters = JwtTokenService.GetValidationParameters(Configuration);
                 })
                 ;
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("create",
+                    policy => policy.RequireClaim("permissions", "create"));
+                options.AddPolicy("update",
+                    policy => policy.RequireClaim("permissions", "update"));
+                options.AddPolicy("delete",
+                    policy => policy.RequireClaim("permissions", "delete"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

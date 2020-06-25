@@ -18,6 +18,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserWithToken>> Register(RegisterData data)
         {
             var user = await userService.Register(data, ModelState);
@@ -43,7 +44,6 @@ namespace TodoApi.Controllers
         }
 
         [HttpGet("Self")]
-        [Authorize]
         public async Task<ActionResult<User>> Self()
         {
             return await userService.GetUser(User);
