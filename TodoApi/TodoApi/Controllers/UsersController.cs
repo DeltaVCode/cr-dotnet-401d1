@@ -29,6 +29,19 @@ namespace TodoApi.Controllers
             return user;
         }
 
+        [HttpPost("Login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<User>> Login(LoginData data)
+        {
+            var user = await userService.Authenticate(data.Username, data.Password);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            return user;
+        }
+
         [HttpGet("Self")]
         [Authorize]
         public async Task<ActionResult<User>> Self()

@@ -16,6 +16,16 @@ namespace TodoApi.Services
             this.userManager = userManager;
         }
 
+        public async Task<User> Authenticate(string username, string password)
+        {
+            var user = await userManager.FindByNameAsync(username);
+
+            if (!await userManager.CheckPasswordAsync(user, password))
+                return null;
+
+            return user;
+        }
+
         public async Task<User> GetUser(ClaimsPrincipal user)
         {
             return await userManager.GetUserAsync(user);

@@ -7,6 +7,7 @@ namespace TodoApi.Services
 {
     public interface IUserService
     {
+        Task<User> Authenticate(string username, string password);
         Task<User> GetUser(ClaimsPrincipal user);
         Task<User> Register(RegisterData data, ModelStateDictionary modelState);
     }
