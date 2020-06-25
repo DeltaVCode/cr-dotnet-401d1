@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import jwt from 'jsonwebtoken';
 
 const usersAPI = 'https://deltav-todo-alpha.azurewebsites.net/api/v1/Users';
 
@@ -14,6 +15,7 @@ export class AuthProvider extends React.Component {
 
     this.state = {
       user: null,
+      permissions: [],
 
       // Functions!
       login: this.login,
@@ -33,7 +35,11 @@ export class AuthProvider extends React.Component {
     const body = await result.json();
 
     if (result.ok){
-      this.setState({ user: body });
+      const payload = jwt.decode(body.token);
+      this.setState({
+        user: body,
+        permissions: payload.permissions || []
+      });
       return;
     }
 
