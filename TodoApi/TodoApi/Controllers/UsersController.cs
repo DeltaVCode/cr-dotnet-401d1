@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using TodoApi.Models.Api;
 using TodoApi.Services;
 
 namespace TodoApi.Controllers
@@ -12,6 +14,18 @@ namespace TodoApi.Controllers
         public UsersController(IUserService userService)
         {
             this.userService = userService;
+        }
+
+        [HttpPost("Register")]
+        public async Task<ActionResult<User>> Register(RegisterData data)
+        {
+            var user = await userService.Register(data, ModelState);
+            if (user == null)
+            {
+                return BadRequest(new ValidationProblemDetails(ModelState));
+            }
+
+            return user;
         }
     }
 }
