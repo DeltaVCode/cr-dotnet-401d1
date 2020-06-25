@@ -48,7 +48,7 @@ export class AuthProvider extends React.Component {
   }
 
   logout = () => {
-    this.setState({ user: null });
+    this.setState({ user: null, permissions: [] });
   }
 
   render() {
