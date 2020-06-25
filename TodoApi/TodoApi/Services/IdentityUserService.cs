@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using TodoApi.Models;
@@ -13,6 +14,11 @@ namespace TodoApi.Services
         public IdentityUserService(UserManager<ApplicationUser> userManager)
         {
             this.userManager = userManager;
+        }
+
+        public async Task<User> GetUser(ClaimsPrincipal user)
+        {
+            return await userManager.GetUserAsync(user);
         }
 
         public async Task<User> Register(RegisterData data, ModelStateDictionary modelState)

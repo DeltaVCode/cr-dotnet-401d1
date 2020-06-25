@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models.Api;
 using TodoApi.Services;
@@ -26,6 +27,13 @@ namespace TodoApi.Controllers
             }
 
             return user;
+        }
+
+        [HttpGet("Self")]
+        [Authorize]
+        public async Task<ActionResult<User>> Self()
+        {
+            return await userService.GetUser(User);
         }
     }
 }
