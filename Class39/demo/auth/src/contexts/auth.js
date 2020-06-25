@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import jwt from 'jsonwebtoken';
+import cookie from 'react-cookies';
 
 const usersAPI = 'https://deltav-todo-alpha.azurewebsites.net/api/v1/Users';
 
@@ -35,12 +36,9 @@ export class AuthProvider extends React.Component {
     const body = await result.json();
 
     if (result.ok){
-      const payload = jwt.decode(body.token);
-      this.setState({
-        user: body,
-        permissions: payload.permissions || []
-      });
-      return;
+      if (this.processToken(body.token, body)){
+        return;
+      }
     }
 
     // TODO: maybe set userError state?
@@ -49,6 +47,39 @@ export class AuthProvider extends React.Component {
 
   logout = () => {
     this.setState({ user: null, permissions: [] });
+    cookie.remove('auth');
+  }
+
+  processToken(token, user) {
+    try {
+      const payload = jwt.decode(token);
+      if (payload) {
+        // When processing cookie, read id/username from token payload
+        if (!user) {
+          user = {
+            id: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+            username: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+          };
+        }
+
+        this.setState({
+          user,
+          permissions: payload.permissions || [],
+        });
+        cookie.save('auth', token);
+        return true;
+      }
+    } catch(e){
+      console.warn(e);
+      this.logout();
+    }
+  }
+
+  componentDidMount() {
+    const cookieToken = cookie.load('auth');
+    if (cookieToken) console.log('Found auth cookie!');
+
+    this.processToken(cookieToken);
   }
 
   render() {
