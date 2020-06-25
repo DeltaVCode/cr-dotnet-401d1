@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 
+import useAuth from '../contexts/auth';
+
 const useFetch = () => {
+  const { user } = useAuth();
 
   const [requestObject, request] = useState(null);
   const [response, setResponse] = useState({});
@@ -16,6 +19,12 @@ const useFetch = () => {
       setIsLoading(true);
       try {
         requestObject.options.headers = { 'Content-Type': 'application/json' };
+
+        // Or we could add this manually to every fetch
+        if (user && user.token) {
+          requestObject.options.headers['Authorization'] = `Bearer ${user.token}`;
+        }
+
         const res = await fetch(requestObject.url, requestObject.options);
         const json = res.status === 200 && await res.json();
         setResponse(json);
