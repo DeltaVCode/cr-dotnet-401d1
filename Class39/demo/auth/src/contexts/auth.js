@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import jwt from 'jsonwebtoken';
 import cookie from 'react-cookies';
 
-const usersAPI = 'https://deltav-todo-alpha.azurewebsites.net/api/v1/Users';
+const usersAPI = 'https://deltav-todo.azurewebsites.net/api/v1/Users';
 
 export const AuthContext = React.createContext();
 

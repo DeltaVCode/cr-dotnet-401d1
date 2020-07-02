@@ -4,11 +4,12 @@ import useFetch from '../../hooks/fetch.js';
 import TodoForm from './form.js';
 import TodoList from './list.js';
 import TodoItem from './item.js';
+import ToDoChart from './chart';
 
 import './todo.scss';
 
 // Should be in .env as REACT_APP_API_SERVER instead of hard coded
-const todoAPI = 'https://deltav-todo-alpha.azurewebsites.net/api/v1/Todos';
+const todoAPI = 'https://deltav-todo.azurewebsites.net/api/v1/Todos';
 
 const ToDo = () => {
   const [todoList, setToDoList] = useState([]);
@@ -93,6 +94,8 @@ const ToDo = () => {
           There are {todoList.filter(item => !item.completed).length} Items To Complete
         </h2>
       </header>
+
+      <ToDoChart list={todoList} />
 
       <section className="todo">
 
